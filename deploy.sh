@@ -10,6 +10,7 @@ npm run docs:build
 cd src/.vuepress
 
 mv  dist ../../
+mv dist docs
 
 cd ../../
 
