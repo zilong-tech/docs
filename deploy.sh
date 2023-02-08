@@ -7,12 +7,14 @@
 npm run docs:build
 
 # 进入生成的文件夹
-cd src/.vuepress/dist
+cd src/.vuepress
 
+mv  dist ../../
 
-git init
+cd ../../
+
 git add .
 git commit -m '发布'
 
-git push -f https://github.com/zilong-tech/docs.git  gh-pages
+git push https://github.com/zilong-tech/docs.git
 
