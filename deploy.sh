@@ -10,9 +10,11 @@ npm run docs:build
 cd src/.vuepress
 
 mv  dist ../../
-mv dist docs
+
 
 cd ../../
+
+mv dist docs
 
 git add .
 git commit -m '发布'
