@@ -41,13 +41,67 @@ export default defineUserConfig({
             }
         ]
       },
+      {
+        text:"事务",
+        icon:"info",
+        link:"/事务/"
+      },
+      {
+        text:"设计模式",
+        icon:"info",
+        link:"/设计模式/"
+      },
+      {
+        text:"MySQL",
+        icon:"info",
+        link:"/MySQL/"
+      },
+      {
+        text:"Java基础",
+        icon:"info",
+        link:"/Java基础/"
+      },
+      {
+        text:"Redis",
+        icon:"info",
+        link:"/Redis/"
+      },
+      {
+        text:"Spring",
+        icon:"info",
+        link:"/Spring/"
+      },
+      {
+        text: "消息中间件",
+        icon: "info",
+        children: [
+          {
+            text: "Kafka",
+            icon: "creative",
+            link: "/Kafka/",
+
+          },
+          {
+            text: "RocketMQ",
+            icon: "creative",
+            link: "/RocketMQ/"
+          }
+        ]
+      },
     ],
 
 
     sidebar: {
       "/SpringBoot/": "structure",
       "/SpringCloudAlibaba/" : "structure",
-
+      "/事务/":"structure",
+      "/设计模式/":"structure",
+      "/MySQL/":"structure",
+      "/Java基础/":"structure",
+      "/Redis/":"structure",
+      "/Spring/":"structure",
+      "/Kafka/":"structure",
+      "/RocketMQ/":"structure",
     },
 
     themeColor: {
