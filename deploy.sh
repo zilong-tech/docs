@@ -9,7 +9,7 @@ npm run docs:build
 # 进入生成的文件夹
 cd src/.vuepress
 
-mv  dist ../../
+mv -f dist ../../
 
 
 cd ../../

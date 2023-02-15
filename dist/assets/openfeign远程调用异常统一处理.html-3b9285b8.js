@@ -1,0 +1,77 @@
+import{_ as n,W as s,X as a,a1 as e}from"./framework-2afc6763.js";const p={},t=e(`<p>在目前微服务流行的年代，稍微大点的项目都会使用微服务架构模式。</p><p>当服务提供方响应为非 2xx 状态码时, feign调用将会抛出FeignException. 由于其异常message经过了Feint的封装, 所以不再是服务提供方的原始异常信息. 若想展示原始信息则需要重写ErrorDecoder来实现。</p><h3 id="返回数据结构" tabindex="-1"><a class="header-anchor" href="#返回数据结构" aria-hidden="true">#</a> 返回数据结构</h3><div class="language-java line-numbers-mode" data-ext="java"><pre class="language-java"><code><span class="token annotation punctuation">@Data</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ApiResponse</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">T</span><span class="token punctuation">&gt;</span></span> <span class="token punctuation">{</span>
+    <span class="token doc-comment comment">/**
+     * 返回码 0 为成功 其他为异常
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">int</span> code<span class="token punctuation">;</span>
+    <span class="token doc-comment comment">/**
+     * 异常提示信息
+     */</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> msg<span class="token punctuation">;</span>
+    <span class="token doc-comment comment">/**
+     * 返回的数据
+     */</span>
+    <span class="token keyword">private</span> <span class="token class-name">T</span> result<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>重写ErrorDecoder</p><div class="language-java line-numbers-mode" data-ext="java"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">FeignErrorDecoder</span> <span class="token keyword">implements</span> <span class="token class-name">ErrorDecoder</span> <span class="token punctuation">{</span>
+
+
+	<span class="token annotation punctuation">@Override</span>
+	<span class="token keyword">public</span> <span class="token class-name">Exception</span> <span class="token function">decode</span><span class="token punctuation">(</span><span class="token class-name">String</span> methodKey<span class="token punctuation">,</span> <span class="token class-name">Response</span> response<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+		<span class="token class-name">String</span> message <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+		<span class="token keyword">try</span> <span class="token punctuation">{</span>
+			<span class="token keyword">if</span> <span class="token punctuation">(</span>response<span class="token punctuation">.</span><span class="token function">body</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+				message <span class="token operator">=</span> <span class="token class-name">Util</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span><span class="token function">body</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">asReader</span><span class="token punctuation">(</span><span class="token class-name">Util</span><span class="token punctuation">.</span><span class="token constant">UTF_8</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+				<span class="token class-name">ApiResponse</span>  result <span class="token operator">=</span> <span class="token class-name">JsonUtil</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>message<span class="token punctuation">,</span> <span class="token class-name">ApiResponse</span> <span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+				<span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ServiceException</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span><span class="token function">getMsg</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token punctuation">}</span>
+		<span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> ignored<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token punctuation">}</span>
+		<span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">RuntimeException</span><span class="token punctuation">(</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="配置全局feign配置类" tabindex="-1"><a class="header-anchor" href="#配置全局feign配置类" aria-hidden="true">#</a> 配置全局feign配置类</h3><div class="language-java line-numbers-mode" data-ext="java"><pre class="language-java"><code><span class="token annotation punctuation">@Configuration</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">CustomizedConfiguration</span> <span class="token punctuation">{</span>
+
+	<span class="token annotation punctuation">@Bean</span>
+	<span class="token keyword">public</span> <span class="token class-name">ErrorDecoder</span> <span class="token function">feignDecoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">FeignErrorDecoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>说明：如果不加@Configuration，需要在@FeignClient指定配置类</p><p>在Feign进行远程调用后，需要对结果进行解码成具体的Java对象，如ApiResponse对象。而解码操作的类，必须实现Decoder接口，并重新decode方法，最后需要让其注入到spring的bean工厂中。 通过查看springcloud源代码，发现是一个叫ResponseEntityDecoder的解析器进行解码的（ResponseEntityDecoder也实现了Decoder接口），为了充分利用这个解析器，上述自定义的解析器对ResponseEntityDecoder进行了适配。</p><p>也可以重写Decoder接口，通过状态判断，对异常信息进行捕获。</p><div class="language-java line-numbers-mode" data-ext="java"><pre class="language-java"><code><span class="token annotation punctuation">@Component</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MyResponseEntityDecoder</span> <span class="token keyword">implements</span> <span class="token class-name">Decoder</span><span class="token punctuation">,</span><span class="token class-name">SmartInitializingSingleton</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> <span class="token class-name">ObjectFactory</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">HttpMessageConverters</span><span class="token punctuation">&gt;</span></span> messageConverters<span class="token punctuation">;</span>
+
+    <span class="token keyword">private</span> <span class="token class-name">ResponseEntityDecoder</span> responseEntityDecoder<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">Object</span> <span class="token function">decode</span><span class="token punctuation">(</span><span class="token keyword">final</span> <span class="token class-name">Response</span> response<span class="token punctuation">,</span> <span class="token class-name">Type</span> type<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">IOException</span><span class="token punctuation">,</span>
+            <span class="token class-name">FeignException</span> <span class="token punctuation">{</span>
+        <span class="token comment">//返回码不为200，表示远程访问有运行时异常，则直接抛出异常即可</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>response<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span><span class="token number">200</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">//充分利用spring框架提供的解析器</span>
+            <span class="token class-name">Object</span> result <span class="token operator">=</span> responseEntityDecoder<span class="token punctuation">.</span><span class="token function">decode</span><span class="token punctuation">(</span>response<span class="token punctuation">,</span> type<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">ApiResponse</span> baseResponse <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">ApiResponse</span><span class="token punctuation">)</span>result<span class="token punctuation">;</span>
+            <span class="token keyword">int</span> code <span class="token operator">=</span> baseResponse<span class="token punctuation">.</span><span class="token function">getCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>code<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                <span class="token keyword">return</span> baseResponse<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">ServiceException</span><span class="token punctuation">(</span><span class="token function">baseResponsegetMsg</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">RuntimeException</span><span class="token punctuation">(</span><span class="token string">&quot;异常返回&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">afterSingletonsInstantiated</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">//初始化spring提供的解析器</span>
+        responseEntityDecoder <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ResponseEntityDecoder</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">SpringDecoder</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>messageConverters<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="总结" tabindex="-1"><a class="header-anchor" href="#总结" aria-hidden="true">#</a> 总结</h3><p>通过重写Decoder接口或者ErrorDecoder接口，可以做全局异常处理，避免在程序中，写入大量的异常处理。</p>`,14),c=[t];function o(i,l){return s(),a("div",null,c)}const d=n(p,[["render",o],["__file","openfeign远程调用异常统一处理.html.vue"]]);export{d as default};
