@@ -203,7 +203,7 @@ public class OnewayProducer {
 
 **消息发送的选择**
 
-![](C:/Users/zys/AppData/Roaming/Typora/typora-user-images/image-20220612205600020.png)
+![](http://rpumme6gd.hb-bkt.clouddn.com/202302151707527.png)
 
 ##### 消费消息
 
