@@ -225,8 +225,6 @@ OP_ACCEPT 当接收到一个客户端连接请求时就绪。该操作只给服�
 
 ServerSocketChannel 和 SocketChannel 可以注册自己感兴趣的操作类型，当对应操作类型的就绪条件满足时 OS 会通知 channel，下表描述各种 Channel 允许注册的操作类型，Y 表示允许注册，N 表示不允许注册，其中服务器 SocketChannel 指由服务器 ServerSocketChannel.accept()返回的对象。 
 
-![](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220629113819066.png)
-
 服务器启动 ServerSocketChannel，关注 OP_ACCEPT 事件。
 
 客户端启动 SocketChannel，连接服务器，关注 OP_CONNECT 事件服务器接受连接，启动一个服务器的 SocketChannel，这个 SocketChannel 可以关注 OP_READ、OP_WRITE 事件，一般连接建立后会直接关注 OP_READ 事件 

@@ -40,10 +40,6 @@ HASH_SLOT = CRC16(key) mod 16384
 
 
 
-
-
-![image-20220402134513597](C:\Users\zys\AppData\Roaming\Typora\typora-user-images\image-20220402134513597.png)
-
 缓存雪崩
 
 缓存雪崩指的是缓存层支撑不住或宕掉后， 流量会像奔逃的野牛一样， 打向后端存储层。 

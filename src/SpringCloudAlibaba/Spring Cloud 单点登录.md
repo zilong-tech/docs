@@ -858,7 +858,7 @@ public class JwtUtils {
 
 网关的端口是8888
 
-![](C:\Users\zys\AppData\Roaming\Typora\typora-user-images\image-20220503175000353.png)
+![](http://rpumme6gd.hb-bkt.clouddn.com/202302152044421.png)
 
 #### 登录
 
