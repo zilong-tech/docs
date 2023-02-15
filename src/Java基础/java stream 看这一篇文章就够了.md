@@ -142,7 +142,7 @@ D. lambda的类型推断
 
 **能够使用Lambda的依据是必须有相应的函数接口**（函数接口，是指内部只有一个抽象方法的接口）。这一点跟Java是强类型语言吻合，也就是说你并不能在代码的任何地方任性的写Lambda表达式。实际上*Lambda的类型就是对应函数接口的类型*。**Lambda表达式另一个依据是类型推断机制**，在上下文信息足够的情况下，编译器可以推断出参数表的类型，而不需要显式指名。Lambda表达更多合法的书写形式如下：
 
-```
+```java
 // Lambda表达式的书写形式
 Runnable run = () -> System.out.println("Hello World");// 1
 ActionListener listener = event -> System.out.println("button clicked");// 2

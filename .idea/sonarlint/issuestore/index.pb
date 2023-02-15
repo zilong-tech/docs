@@ -75,8 +75,6 @@ C
 src/MySQL/事务.md,6\8\6829eb3984625dc433b992db217aba6702c60c1c
 Y
 )src/Java基础/FIFO 、LRU、LFU算法.md,2\b\2b2911b00bf5d36cd8bd0834c0ccc7bfd8385e25
-i
-9src/Java基础/java stream 看这一篇文章就够了.md,d\1\d1363281117e93bff98bb302346da5632b31e301
 P
  src/Java基础/Java SPI详解.md,a\d\ad667bd176cb75672369e51faff49c5bfd2ec6e9
 L
@@ -93,8 +91,6 @@ N
 +src/Java基础/jdk spring内置工具类.md,d\2\d2859fbb8de22f79b5cd9df42722ec04ee615d4c
 I
 src/Java基础/HashMap.md,b\2\b2ac16cb28bb2866f5285f0d73a75f4ec1228e77
-_
-/src/事务/柔性事务：最大努力通知.md,3\4\34536454454b7021b781068dbbafaa897236882b
 c
 3src/Redis/Redis hot key 发现以及解决办法.md,1\8\1852a0e1c7bbecff4aa402c1a948037e7536f0a0
 N
