@@ -173,7 +173,7 @@ public class AsyncProducer {
 
 这种方式主要用在不特别关心发送结果的场景，例如日志发送.
 
-![](C:/Users/zys/AppData/Roaming/Typora/typora-user-images/image-20220612205120598.png)
+![](http://rpumme6gd.hb-bkt.clouddn.com/202302151707027.png)
 
 ```java
 public class OnewayProducer {
