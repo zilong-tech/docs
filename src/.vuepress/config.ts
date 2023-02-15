@@ -23,7 +23,41 @@ export default defineUserConfig({
     logo: "/logo.png",
 
     navbar: [
-  
+
+      {
+        text:"并发编程",
+        icon:"info",
+        link:"/并发编程/"
+      },
+      {
+        text:"网络编程",
+        icon:"info",
+        link:"/网络编程/"
+      },
+      {
+        text:"分布式",
+        icon:"info",
+        children: [
+          {
+            text: "分布式基础",
+            icon: "creative",
+            link: "/分布式基础/",
+
+          },
+          {
+            text: "zookeeper",
+            icon: "creative",
+            link: "/zookeeper/",
+
+          },
+          {
+            text: "分布式事务",
+            icon: "creative",
+            link: "/分布式事务/"
+          }
+        ]
+
+      },
       {
         text: "微服务",
         icon: "info",
@@ -41,31 +75,51 @@ export default defineUserConfig({
             }
         ]
       },
-      {
-        text:"事务",
-        icon:"info",
-        link:"/事务/"
-      },
+
       {
         text:"设计模式",
         icon:"info",
         link:"/设计模式/"
       },
-      {
-        text:"MySQL",
-        icon:"info",
-        link:"/MySQL/"
-      },
+
       {
         text:"Java基础",
         icon:"info",
         link:"/Java基础/"
       },
       {
-        text:"Redis",
+        text:"JVM",
         icon:"info",
-        link:"/Redis/"
+        link:"/JVM/"
       },
+      {
+        text:"数据库",
+        icon:"info",
+        children:[
+          {
+            text:"Redis",
+            icon:"info",
+            link:"/Redis/"
+          },
+          {
+            text:"MySQL",
+            icon:"info",
+            link:"/MySQL/"
+          },
+          {
+            text:"Mongodb",
+            icon:"info",
+            link:"/Mongodb/"
+          },
+        ]
+      },
+
+      {
+        text:"Mybatis",
+        icon:"info",
+        link:"/Mybatis/"
+      },
+
       {
         text:"Spring",
         icon:"info",
@@ -88,13 +142,34 @@ export default defineUserConfig({
           }
         ]
       },
+      {
+        text:"高并发",
+        icon:"info",
+        link:"/高并发/"
+      },
+      {
+        text:"面试",
+        icon:"info",
+        link:"/面试/"
+      },
+      {
+        text:"工具",
+        icon:"info",
+        link:"/工具/"
+      },
+      {
+        text:"开源项目",
+        icon:"info",
+        link:"/开源项目/"
+      },
     ],
 
 
     sidebar: {
+      "/并发编程/": "structure",
       "/SpringBoot/": "structure",
       "/SpringCloudAlibaba/" : "structure",
-      "/事务/":"structure",
+      "/分布式事务/":"structure",
       "/设计模式/":"structure",
       "/MySQL/":"structure",
       "/Java基础/":"structure",
@@ -102,6 +177,13 @@ export default defineUserConfig({
       "/Spring/":"structure",
       "/Kafka/":"structure",
       "/RocketMQ/":"structure",
+      "/网络编程/":"structure",
+      "/开源项目/":"structure",
+      "/分布式基础/":"structure",
+      "/高并发/":"structure",
+      "/面试/":"structure",
+      "/Mybatis/":"structure",
+      "/工具/":"structure",
     },
 
     themeColor: {
@@ -144,7 +226,7 @@ export default defineUserConfig({
       // 自定义的 CSS 资源链接，可用于适配不同风格的博客
       cssUrl: 'https://qiniu.techgrow.cn/readmore/dist/vuepress2.css',
       // 文章排除添加引流工具的 URL 规则，支持使用路径、通配符、正则表达式的匹配规则
-      excludes: { strExp: [], regExp: [] },
+      excludes: { strExp: ["/docs/"], regExp: [] },
       // 是否反转 URL 排除规则的配置，即只有符合排除规则的文章才会添加引流工具
       reverse: false,
       // 文章内容的预览高度

@@ -1,0 +1,715 @@
+---
+title: zookpeer 入门
+author: 程序员子龙
+index: true
+icon: discover
+category:
+- Zookeeper
+---
+# 简介
+
+zookeeper是由雅虎创建，zookeeper并没有直接采用Paxos算法，而是采用了一种被称为ZAB（zookeeper Atomic Broadcast）的一致性协议。
+
+ZooKeeper 是一个开源的分布式协调框架，zookeeper是一个典型的分布式数据一致性的解决方案，分布式应用程序可以基于它实现诸如数据发布/订阅、负载均衡、命名服务、分布式协调/通知、集群管理、Master选举、分布式锁和分布式队列等功能。
+
+Zookeeper 的设计目标是将那些复杂且容易出错的分布式一致性服务封装起来，构成一个高效可靠的原语集，并以一系列简单易用的接口提供给用户使用。
+
+官方：https://zookeeper.apache.org/
+
+![](https://note.youdao.com/yws/public/resource/f0549278905bb988c831d6910c54143a/xmlnote/377392559C58477A871480537851D8BC/44781)
+
+ZooKeeper本质上是一个分布式的小文件存储系统（Zookeeper=文件系统+监听机制）。提供基于类似于文件系统的目录树方式的数据存储，并且可以对树中的节点进行有效管理，从而用来维护和监控存储的数据的状态变化。通过监控这些数据状态的变化，从而可以达到基于数据的集群管理、统一命名服务、分布式配置管理、分布式消息队列、分布式锁、分布式协调等功能。
+
+Zookeeper从设计模式角度来理解：是一个基于观察者模式设计的分布式服务管理框架，它负责存储和管理大家都关心的数据，然后接受观察者的注册，一旦这些数据的状态发生变化，Zookeeper 就将负责通知已经在Zookeeper上注册的那些观察者做出相应的反应。
+
+​    ![](https://note.youdao.com/yws/public/resource/f0549278905bb988c831d6910c54143a/xmlnote/F572FEBA87D24A3294A744B5272DA2A2/44785)
+
+**ZooKeeper 为我们提供了高可用、高性能、稳定的分布式数据一致性解决方案，通常被用于实现诸如数据发布/订阅、负载均衡、命名服务、分布式协调/通知、集群管理、Master 选举、分布式锁和分布式队列等功能。**
+
+另外，ZooKeeper 将数据保存在内存中，性能是非常棒的。 在“读”多于“写”的应用程序中尤其地高性能，因为“写”会导致所有的服务器间同步状态。（“读”多于“写”是协调服务的典型场景）。
+
+# ZooKeeper 特点
+
+- **顺序一致性：** 从同一客户端发起的事务请求，最终将会严格地按照顺序被应用到 ZooKeeper 中去。
+- **原子性：** 所有事务请求的处理结果在整个集群中所有机器上的应用情况是一致的，也就是说，要么整个集群中所有的机器都成功应用了某一个事务，要么都没有应用。
+- **单一系统映像 ：** 无论客户端连到哪一个 ZooKeeper 服务器上，其看到的服务端数据模型都是一致的。
+- **可靠性：** 一旦一次更改请求被应用，更改的结果就会被持久化，直到被下一次更改覆盖。
+
+# ZooKeeper 典型应用场景
+
+ZooKeeper 概览中，我们介绍到使用其通常被用于实现诸如数据发布/订阅、负载均衡、命名服务、分布式协调/通知、集群管理、Master 选举、分布式锁和分布式队列等功能。
+
+下面选 3 个典型的应用场景：
+
+1. **分布式锁** ： 通过创建唯一节点获得分布式锁，当获得锁的一方执行完相关代码或者是挂掉之后就释放锁。
+2. **命名服务** ：可以通过 ZooKeeper 的顺序节点生成全局唯一 ID
+3. **数据发布/订阅** ：通过 **Watcher 机制** 可以很方便地实现数据发布/订阅。当你将数据发布到 ZooKeeper 被监听的节点上，其他机器可通过监听 ZooKeeper 上节点的变化来实现配置的动态更新。
+
+**统一命名服务**
+
+在分布式环境下，经常需要对应用/服务进行统一命名，便于识别。
+
+例如：IP不容易记住，而域名容易记住。
+
+​    ![](https://note.youdao.com/yws/public/resource/f0549278905bb988c831d6910c54143a/xmlnote/F2A8F7FA79634561A04A2EA2AB9A5347/45267)
+
+利用 ZooKeeper 顺序节点的特性，制作分布式的序列号生成器，或者叫 id 生成器。（分布式环境下使用作为数据库 id，另外一种是 UUID（缺点：没有规律）），ZooKeeper 可以生成有顺序的容易理解的同时支持分布式环境的编号。
+
+​                / └── /order    ├── /order-date1-000000000000001    ├── /order-date2-000000000000002    ├── /order-date3-000000000000003    ├── /order-date4-000000000000004    └── /order-date5-000000000000005              
+
+**数据发布/订阅**
+
+数据发布/订阅的一个常见的场景是配置中心，发布者把数据发布到 ZooKeeper 的一个或一系列的节点上，供订阅者进行数据订阅，达到动态获取数据的目的。
+
+配置信息一般有几个特点:
+
+1. 数据量小的KV
+2. 数据内容在运行时会发生动态变化
+3. 集群机器共享，配置一致
+
+ZooKeeper 采用的是推拉结合的方式。
+
+1. 推: 服务端会推给注册了监控节点的客户端 Watcher 事件通知
+2. 拉: 客户端获得通知后，然后主动到服务端拉取最新的数据
+
+​    ![](https://note.youdao.com/yws/public/resource/f0549278905bb988c831d6910c54143a/xmlnote/E51E89C99C314A1EAC79524300578D97/45269)
+
+**统一集群管理**
+
+分布式环境中，实时掌握每个节点的状态是必要的，可根据节点实时状态做出一些调整。
+
+ ZooKeeper可以实现实时监控节点状态变化：
+
+- 可将节点信息写入ZooKeeper上的一个ZNode。
+- 监听这个ZNode可获取它的实时状态变化。
+
+​    ![](https://note.youdao.com/yws/public/resource/f0549278905bb988c831d6910c54143a/xmlnote/DEDA41D032784D66B4BDC2FB55291B18/45264)
+
+**负载均衡**
+
+在Zookeeper中记录每台服务器的访问数，让访问数最少的服务器去处理最新的客户端请求
+
+​    ![](https://note.youdao.com/yws/public/resource/f0549278905bb988c831d6910c54143a/xmlnote/5D2F5F78BC28416EB449EC47B0310358/45265)
+
+# Zookeeper 核心概念
+
+## 集群角色
+
+Leader：Leader服务器为客户端提供读写服务
+Follower：Follower为客户端提供读服务
+Observer：Observer为客户端提供读服务，不参与选举Leader，不参与事务投票，不影响写性能提高集群的读性能。
+
+## 会话（Session）
+
+Session是指客户端会话，是客户端连接服务端的一个TCP长连接。服务端的Watch事件通知也是通过该TCP连接。
+
+在client和server通信之前,首先需要建立连接,该连接称为session。连接建立后,如果发生连接超时、授权失败,或者显式关闭连接,连接便处于closed状态, 此时session结束。
+
+Session 有一个属性叫做：`sessionTimeout` ，`sessionTimeout` 代表会话的超时时间。当由于服务器压力太大、网络故障或是客户端主动断开连接等各种原因导致客户端连接断开时，只要在`sessionTimeout`规定的时间内能够重新连接上集群中任意一台服务器，那么之前创建的会话仍然有效。
+
+另外，在为客户端创建会话之前，服务端首先会为每个客户端都分配一个 `sessionID`。由于 `sessionID`是 ZooKeeper 会话的一个重要标识，许多与会话相关的运行机制都是基于这个 `sessionID` 的，因此，无论是哪台服务器为客户端分配的 `sessionID`，都务必保证全局唯一。
+
+## 版本
+
+zookeeper会对每一个Znode维护一个Stat的数据结构，Stat中记录了Znode的三个数据版本:
+
+dataVersion（当前Znode的版本）每次对节点进行set操作，dataVersion的值都会增加1（即使设置的是相同的数据），可有效避免了数据更新时出现的先后顺序问题。
+
+cversion（当前Znode子节点的版本）当znode的子节点有变化时，cversion 的值就会增加1。
+
+aversion（当前Znode的ACL版本）
+
+# 数据模型
+
+ZooKeeper 数据模型采用层次化的多叉树形结构，每个节点上都可以存储数据，这些数据可以是数字、字符串或者是二级制序列。并且。每个节点还可以拥有 N 个子节点，最上层是根节点以“/”来代表。每个数据节点在 ZooKeeper 中被称为 **znode**，它是 ZooKeeper 中数据的最小单元。并且，每个 znode 都一个唯一的路径标识。
+
+ZooKeeper 数据模型的结构与 Unix 文件系统很类似，整体上可以看作是一棵树。都是由一系列使用斜杠"/"进行分割的路径表示，开发人员可以向这个节点中写入数据，也可以在节点下面创建子节点。
+
+​    ![](https://note.youdao.com/yws/public/resource/f0549278905bb988c831d6910c54143a/xmlnote/42FE45D9612741FE9120F6054B97AA6D/45253)
+
+ZooKeeper的数据模型是层次模型，层次模型常见于文件系统。层次模型和key-value模型是两种主流的数据模型。ZooKeeper使用文件系统模型主要基于以下两点考虑:
+
+1. 文件系统的树形结构便于表达数据之间的层次关系
+2. 文件系统的树形结构便于为不同的应用分配独立的命名空间( namespace ) 
+
+ZooKeeper的层次模型称作Data Tree，Data Tree的每个节点叫作Znode。不同于文件系统，每个节点都可以保存数据，每一个 ZNode 默认能够存储 1MB 的数据，每个 ZNode 都可以通过其路径唯一标识，每个节点都有一个版本(version)，版本从0开始计数。
+
+## 数据节点（Znode）
+
+zookeeper将所有的数据存储在内存中，数据模型是一棵树（Znode Tree），由斜杆进行分割的路径，就是一个Znode，每个Znode上都会保存自己的数据内容，同时还会保存一些列的属性信息。
+
+每个子目录项都被称作为 **znode(目录节点)**，和文件系统类似，我们能够自由的增加、删除 znode，在一个znode下增加、删除子znode。 
+
+在zookeeper中，Znode分为持久节点和临时节点，持久节点是指一旦创建，除非主动删除，否则这个Znode会一直在Zookeeper中，临时节点它的生命周期是跟会话绑定，一旦客户端会话失效，临时节点将会删除。另外，zookeeper可以为每个节点添加SEQUENTIAL属性，一旦有这个属性，那么节点就是一个有序节点。
+
+![](https://pica.zhimg.com/80/v2-751ec74691a5a91105992f7b2df804c1_720w.png)
+
+有四种类型的znode： 
+
+1、PERSISTENT­持久化节点 
+
+客户端与zookeeper断开连接后，该节点依旧存在，只要不手动删除该节点，他将永远存在 
+
+2、 PERSISTENT_SEQUENTIAL­持久化顺序编号节点 
+
+客户端与zookeeper断开连接后，该节点依旧存在，只是Zookeeper给该节点名称进行顺序编号，子节点的名称还具有顺序性。比如 `/node1/app0000000001` 、`/node1/app0000000002` 。
+
+3、EPHEMERAL­临时节点 
+
+客户端与zookeeper断开连接后，该节点被删除 ，临时节点的生命周期是与 **客户端会话（session）** 绑定的，**会话消失则节点消失** 。并且，**临时节点只能做叶子节点** ，不能创建子节点。
+
+4、EPHEMERAL_SEQUENTIAL­ 临时顺序编号节点 
+
+客户端与zookeeper断开连接后，该节点被删除，子节点的名称还具有顺序性。
+
+5、Container 节点（3.5.3 版本新增，如果Container节点下面没有子节点，则Container节点 在未来会被Zookeeper自动清除,定时任务默认60s 检查一次） 
+
+6、TTL 节点( 默认禁用，只能通过系统配置 *zookeeper.extendedTypesEnabled=true* 开启，不稳 定)
+
+![](https://pic1.zhimg.com/80/v2-ed40027bf87d7951a58ed2ba6d582df3_720w.png)
+
+客户端注册监听它关心的任意节点，或者目录节点及递归子目录节点 1. 如果注册的是对某个节点的监听，则当这个节点被删除，或者被修改时，对应的客户端将被通 知2. 如果注册的是对某个目录的监听，则当这个目录有子节点被创建，或者有子节点被删除，对应 的客户端将被通知 3. 如果注册的是对某个目录的递归子节点进行监听，则当这个目录下面的任意子节点有目录结构 的变化（有子节点被创建，或被删除)或者根节点有数据变化时，对应的客户端将被通知。 注意：所有的通知都是一次性的，及无论是对节点还是对目录进行的监听，一旦触发，对应的监 听即被移除。递归子节点，监听是对所有子节点的，所以，每个子节点下面的事件同样只会被触 发一次。
+
+##  znode 数据结构
+
+每个 znode 由 2 部分组成:
+
+- **stat** ：状态信息
+- **data** ： 节点存放的数据的具体内容
+
+查下节点数据
+
+```shell
+[zk: localhost:2181(CONNECTED) 4] get /testnode
+somedata
+cZxid = 0x39
+ctime = Mon Jun 27 20:43:20 CST 2022
+mZxid = 0x39
+mtime = Mon Jun 27 20:43:20 CST 2022
+pZxid = 0x39
+cversion = 0
+dataVersion = 0
+aclVersion = 0
+ephemeralOwner = 0x0
+dataLength = 8
+numChildren = 0
+```
+
+查看节点状态
+
+```shell
+[zk: localhost:2181(CONNECTED) 1] stat /testnode
+cZxid = 0x39
+ctime = Mon Jun 27 20:43:20 CST 2022
+mZxid = 0x39
+mtime = Mon Jun 27 20:43:20 CST 2022
+pZxid = 0x39
+cversion = 0
+dataVersion = 0
+aclVersion = 0
+ephemeralOwner = 0x0
+dataLength = 8
+numChildren = 0
+```
+
+对于zk来说，每次的变化都会产生一个唯一的事务id，zxid（ZooKeeper Transaction Id），通过zxid，可以确定更新操作的先后顺序。例如，如果zxid1小于zxid2，说明zxid1操作先于zxid2发生，zxid对于整个zk都是唯一的，即使操作的是不同的znode。
+
+| znode 状态信息 | 解释                                                         |
+| -------------- | ------------------------------------------------------------ |
+| cZxid          | create ZXID，即该数据节点被创建时的事务 id                   |
+| ctime          | create time，即该节点的创建时间                              |
+| mZxid          | modified ZXID，即该节点最终一次更新时的事务 id               |
+| mtime          | modified time，即该节点最后一次的更新时间                    |
+| pZxid          | 该节点的子节点列表最后一次修改时的事务 id，只有子节点列表变更才会更新 pZxid，子节点内容变更不会更新 |
+| cversion       | 子节点版本号，当前节点的子节点每次变化时值增加 1             |
+| dataVersion    | 数据节点内容版本号，节点创建时为 0，每更新一次节点内容(不管内容有无变化)该版本号的值增加 1 |
+| aclVersion     | 节点的 ACL 版本号，表示该节点 ACL 信息变更次数               |
+| ephemeralOwner | 创建该临时节点的会话的 sessionId；如果当前节点为持久节点，则 ephemeralOwner=0 |
+| dataLength     | 数据节点内容长度                                             |
+| numChildren    | 当前节点的子节点个数                                         |
+
+
+
+# 监听通知机制
+
+Watcher（事件监听器），是 ZooKeeper 中的一个很重要的特性。Watcher（事件监听器），zookeeper允许用户在指定节点上注册watcher，并且在一些特定事件触发的时候，zookeeper服务端会将事件通知到感兴趣的客户端上去，该机制是zookeeper实现分布式协调服务的重要特性。
+
+![](https://javaguide.cn/assets/watche%E6%9C%BA%E5%88%B6.f523bd89.png)
+
+客户端注册监听它关心的任意节点，或者目录节点及递归子目录节点 
+
+1. 如果注册的是对某个节点的监听，则当这个节点被删除，或者被修改时，对应的客户端将被通知
+2. 如果注册的是对某个目录的监听，则当这个目录有子节点被创建，或者有子节点被删除，对应 的客户端将被通知 
+3. 如果注册的是对某个目录的递归子节点进行监听，则当这个目录下面的任意子节点有目录结构 的变化（有子节点被创建，或被删除）或者根节点有数据变化时，对应的客户端将被通知。 注意：所有的通知都是一次性的，及无论是对节点还是对目录进行的监听，一旦触发，对应的监 听即被移除。递归子节点，监听是对所有子节点的，所以，每个子节点下面的事件同样只会被触 发一次。
+
+- 一个Watch事件是一个一次性的触发器，当被设置了Watch的数据发生了改变的时候，则服务器将这个改变发送给设置了Watch的客户端，以便通知它们。
+- Zookeeper采用了 Watcher机制实现数据的发布订阅功能，多个订阅者可同时监听某一特定主题对象，当该主题对象的自身状态发生变化时例如节点内容改变、节点下的子节点列表改变等，会实时、主动通知所有订阅者。
+- watcher机制事件上与观察者模式类似，也可看作是一种观察者模式在分布式场景下的实现方式。
+
+watcher的过程：
+
+1. 客户端向服务端注册watcher
+2. 服务端事件发生触发watcher
+3. 客户端回调watcher得到触发事件情况
+
+注意：Zookeeper中的watch机制，必须客户端先去服务端注册监听，这样事件发送才会触发监听，通知给客户端。
+
+支持的事件类型：
+
+- None: 连接建立事件
+- NodeCreated： 节点创建
+- NodeDeleted： 节点删除
+- NodeDataChanged：节点数据变化
+- NodeChildrenChanged：子节点列表变化
+- DataWatchRemoved：节点监听被移除
+- ChildWatchRemoved：子节点监听被移除
+
+| 特性           | 说明                                                         |
+| -------------- | ------------------------------------------------------------ |
+| 一次性触发     | watcher是一次性的，一旦被触发就会移除，再次使用时需要重新注册 |
+| 客户端顺序回调 | watcher回调是顺序串行执行的，只有回调后客户端才能看到最新的数据状态。一个watcher回调逻辑不应该太多，以免影响别的watcher执行 |
+| 轻量级         | WatchEvent是最小的通信单位，结构上只包含通知状态、事件类型和节点路径，并不会告诉数据节点变化前后的具体内容 |
+| 时效性         | watcher只有在当前session彻底失效时才会无效，若在session有效期内快速重连成功，则watcher依然存在，仍可接收到通知； |
+
+ 
+
+```
+#监听节点数据的变化 
+get -w path  stat -w path 
+#监听子节点增减的变化 
+ls -w path          
+```
+
+​     
+
+应用场景：
+
+在dubbo框架中，客户端和服务端注册watcher，当服务端节点发生变化时候，同时通知客户端，客户端更新本地服务列表
+
+![](https://pic1.zhimg.com/80/v2-e37393dbda6cfab1c88e0e8e0c9701e3_720w.png)
+
+针对节点的监听：一定事件触发，对应的注册立刻被移除，所以事件监听是一次性的          
+
+# 常用命令
+
+## 创建命令
+
+#创建一个非顺序的持久化节点
+create [‐s] [‐e] [‐c] [‐t ttl] path [data] [acl] 
+
+中括号为可选项，没有则默认创建持久化节点 
+
+-s: 顺序节点 
+
+-e: 临时节点 
+
+-c: 容器节点 
+
+-t: 可以给节点添加过期时间，默认禁用，需要通过系统参数启用 
+
+
+
+```
+#创建持久节点
+create /test‐node  some‐data
+
+#创建一个临时节点
+create -e /test/tmp  tem-data
+
+#创建临时有序节点 
+create -e -s /servers/host  xxx              
+
+#创建一个顺序节点
+create -s /test/aaa  aaa-data
+
+#创建容器节点   
+create -c /container  
+
+#创建ttl节点 
+create -t 10 /ttl     
+```
+
+​                     
+
+容器节点主要用来容纳字节点，如果没有给其创建子节点，容器节点表现和持久化节点一样，如果给容器节点创建了子节点，后续又把子节点清空，容器节点也会被zookeeper删除。
+
+
+
+## 查询命令
+
+- 列出节点 ls
+
+
+ls [-s] [-w] [-R] path
+
+-w 添加一个 watch（监视器）
+
+-s 列举出节点详情
+
+-R 列举出节点的级联节点
+
+- 获取节点信息 get
+
+
+get [-s] [-w] path
+
+get /test‐node 
+
+-w 添加一个 watch（监视器）
+
+-s 列举出节点详情
+
+查看节点状态信息同时查看数据
+
+![](https://pic1.zhimg.com/80/v2-ea83ed88a43d2325f55b4e5ab5ddccce_720w.png)
+
+根据状态数据中的版本号有并发修改数据实现乐观锁的功能
+
+比如： 客户端首先获取版本信息
+
+![](https://pic3.zhimg.com/80/v2-6a325bdd3c3f063f78299200bb7254f8_720w.png)
+
+ 当前的数据版本dataVersion是 0， 这时客户端 用 set 命令修改数据的时候可以把版本号带上 
+
+如果在执行上面 set命令前， 有人修改了数据，zookeeper 会递增版本号， 这个时候，如果再用以前的版本号去修改，将会导致修改失败，报如下错误
+
+​    ![0](https://note.youdao.com/yws/public/resource/16ab5da92ee89d93f948dc57762b7ae6/xmlnote/48A6D222488E416089D749699947D771/25519)
+
+创建子节点， 这里要注意，zookeeper是以节点组织数据的，没有相对路径这么一说，所以，所有的节点一定是以 / 开头。
+
+create /test-node/test-sub-node
+
+查看子节点信息，比如根节点下面的所有子节点， 加一个大写 R  可以查看递归子节点列表
+
+![](https://pic2.zhimg.com/80/v2-6dc31cf924691b874b30d10086ed1aec_720w.png)
+
+- 检查状态 stat
+
+
+stat [-w] path
+
+-w 添加一个 watch（监视器）
+
+stat /test‐node 
+
+![](https://pic3.zhimg.com/80/v2-a24f3b36fcef581032d980166780313c_720w.png)
+
+cZxid：创建znode的事务ID（Zxid的值）。
+mZxid：最后修改znode的事务ID。
+pZxid：最后添加或删除子节点的事务ID（子节点列表发生变化才会发生改变）。
+ctime：znode创建时间。
+mtime：znode最近修改时间。
+dataVersion：znode的当前数据版本。
+cversion：znode的子节点结果集版本（一个节点的子节点增加、删除都会影响这个版本）。
+aclVersion：表示对此znode的acl版本。
+ephemeralOwner：znode是临时znode时，表示znode所有者的 session ID。 如果znode不是临时znode，则该字段设置为零。
+dataLength：znode数据字段的长度。
+numChildren：znode的子znode的数量。
+
+-  修改节点
+
+set [‐s] [‐v version] path data
+
+set /test‐node some‐data‐changed 
+
+
+
+- 删除节点 
+
+delete [-v version] path
+
+级联删除 delete
+deleteall path [-b batch size]
+
+- 事件监听机制
+
+`get  -w  /path   // 注册监听的同时获取数据` 
+
+`stat -w /path   // 对节点进行监听，且获取元数据信息`    
+
+![](https://pic2.zhimg.com/80/v2-d2608df48e084e05f2eea29652931c51_720w.png)
+
+针对目录的监听，如下图，目录的变化，会触发事件，且一旦触发，对应的监听也会被移除，后续对节点的创建没有触发监听事件
+
+`ls -w /path`
+
+![](https://note.youdao.com/yws/public/resource/16ab5da92ee89d93f948dc57762b7ae6/xmlnote/A0979183DA124F629EAFC9605981D365/25672)
+
+针对递归子目录的监听
+
+  `ls -R -w /path ： -R 区分大小写，一定用大写`               
+
+如下对/test 节点进行递归监听，但是每个目录下的目录监听也是一次性的，如第一次在/test 目录下创建节点时，触发监听事件，第二次则没有，同样，因为时递归的目录监听，所以在/test/sub0下进行节点创建时，触发事件，但是再次创建/test/sub0/subsub1节点时，没有触发事件。
+
+![](https://note.youdao.com/yws/public/resource/16ab5da92ee89d93f948dc57762b7ae6/xmlnote/080872C676D8462F99E22D2AC9C3631C/25681)
+
+Zookeeper事件类型：
+
+​            None: 连接建立事件
+
+​            NodeCreated： 节点创建
+
+​            NodeDeleted： 节点删除
+
+​            NodeDataChanged：节点数据变化
+
+​            NodeChildrenChanged：子节点列表变化
+
+​            DataWatchRemoved：节点监听被移除
+
+​            ChildWatchRemoved：子节点监听被移除
+
+# **Zookeeper 的 ACL 权限控制( Access Control   List )**
+
+Zookeeper 的ACL 权限控制,可以控制节点的读写操作,保证数据的安全性，Zookeeper ACL 权限设置分为 3 部分组成，分别是：**权限模式**（Scheme）、**授权对象**（ID）、**权限信息**（Permission）。最终组成一条例如“scheme:id:permission”格式的 ACL 请求信息。下面我们具体看一下这 3 部分代表什么意思：
+
+**Scheme（权限模式）**：用来设置 ZooKeeper 服务器进行权限验证的方式。ZooKeeper 的权限验证方式大体分为两种类型：
+
+一种是**范围验证**。所谓的范围验证就是说 ZooKeeper 可以针对一个 IP 或者一段 IP 地址授予某种权限。比如我们可以让一个 IP 地址为“ip：192.168.0.110”的机器对服务器上的某个数据节点具有写入的权限。或者也可以通过“ip:192.168.0.1/24”给一段 IP 地址的机器赋权。
+
+另一种权限模式就是**口令验证**，也可以理解为用户名密码的方式。在 ZooKeeper 中这种验证方式是 Digest 认证，而 Digest 这种认证方式首先在客户端传送“username:password”这种形式的权限表示符后，ZooKeeper 服务端会对密码 部分使用 SHA-1 和 BASE64 算法进行加密，以保证安全性。
+
+还有一种Super权限模式,  Super可以认为是一种特殊的 Digest 认证。具有 Super 权限的客户端可以对 ZooKeeper 上的任意数据节点进行任意操作。 
+
+**授权对象（ID）**
+
+授权对象就是说我们要把权限赋予谁，而对应于 4 种不同的权限模式来说，如果我们选择采用 IP 方式，使用的授权对象可以是一个 IP 地址或 IP 地址段；而如果使用 Digest 或 Super 方式，则对应于一个用户名。如果是 World 模式，是授权系统中所有的用户。
+
+**权限信息（Permission）**
+
+权限就是指我们可以在数据节点上执行的操作种类，如下所示：在 ZooKeeper 中已经定义好的权限有 5 种：
+
+数据节点（c: create）创建权限，授予权限的对象可以在数据节点下创建子节点；
+
+数据节点（w: wirte）更新权限，授予权限的对象可以更新该数据节点；
+
+数据节点（r: read）读取权限，授予权限的对象可以读取该节点的内容以及子节点的列表信息；
+
+数据节点（d: delete）删除权限，授予权限的对象可以删除该数据节点的子节点；
+
+数据节点（a: admin）管理者权限，授予权限的对象可以对该数据节点体进行 ACL 权限设置。
+
+**命令**：
+
+getAcl：获取某个节点的acl权限信息
+
+setAcl：设置某个节点的acl权限信息
+
+addauth: 输入认证授权信息，相当于注册用户信息，注册时输入明文密码，zk将以密文的形式存储 
+
+可以通过系统参数zookeeper.skipACL=yes进行配置，默认是no,可以配置为true, 则配置过的ACL将不再进行权限检测
+
+
+
+addauth digest userName:password	# 需要先添加一个用户
+
+setAcl /testDir/testAcl auth:user1:123456:crwa	# 然后才可以拿着这个用户去设置权限
+
+![](https://pic2.zhimg.com/80/v2-a64126bd50958c7209e74bb71e132559_720w.png)
+
+# **Zookeeper安装**
+
+下载地址：https://zookeeper.apache.org/releases.html
+
+**修改配置文件**
+
+解压安装包后进入conf目录，复制zoo_sample.cfg，修改为zoo.cfg
+
+```
+ cp zoo_sample.cfg  zoo.cfg     
+```
+
+​     ![](https://note.youdao.com/yws/public/resource/f0549278905bb988c831d6910c54143a/xmlnote/C111F3351AB04CFEA0FE1D9AA99A0BA5/44894)
+
+**启动zookeeper server**
+
+```
+ # 可以通过 bin/zkServer.sh  来查看都支持哪些参数  
+ # 默认加载配置路径conf/zoo.cfg 
+ bin/zkServer.sh start conf/zoo.cfg 
+ # 查看zookeeper状态 bin/zkServer.sh status     
+```
+
+​         
+
+**3）启动zookeeper client连接Zookeeper server**
+
+```
+bin/zkCli.sh 
+
+# 连接远程的zookeeper s
+erver bin/zkCli.sh -server ip:port    
+```
+
+#    
+
+**常见cli命令**
+
+https://zookeeper.apache.org/doc/r3.8.0/zookeeperCLI.html
+
+| 命令基本语法                                     | 功能描述                                                     |
+| ------------------------------------------------ | ------------------------------------------------------------ |
+| help                                             | 显示所有操作命令                                             |
+| ls [-s] [-w] [-R] path                           | 使用 ls 命令来查看当前 znode 的子节点 [可监听]  -w: 监听子节点变化 -s: 节点状态信息（时间戳、版本号、数据大小等）-R: 表示递归的获取 |
+| create [-s] [-e] [-c] [-t ttl] path [data] [acl] | 创建节点-s : 创建有序节点。-e : 创建临时节点。-c : 创建一个容器节点。t ttl] : 创建一个TTL节点， -t 时间（单位毫秒）。data：节点的数据，可选，如果不使用时，节点数据就为null。acl：访问控制 |
+| get [-s] [-w] path                               | 获取节点数据信息 -s: 节点状态信息（时间戳、版本号、数据大小等） -w: 监听节点变化 |
+| set [-s] [-v version] path data                  | 设置节点数据-s:表示节点为顺序节点-v: 指定版本号              |
+| getAcl [-s] path                                 | 获取节点的访问控制信息-s: 节点状态信息（时间戳、版本号、数据大小等） |
+| setAcl [-s] [-v version] [-R] path acl           | 设置节点的访问控制列表-s:节点状态信息（时间戳、版本号、数据大小等）-v:指定版本号-R:递归的设置 |
+| stat [-w] path                                   | 查看节点状态信息                                             |
+| delete [-v version] path                         | 删除某一节点，只能删除无子节点的节点。-v： 表示节点版本号    |
+| deleteall path                                   | 递归的删除某一节点及其子节点                                 |
+| setquota -n\|-b val path                         | 对节点增加限制n:表示子节点的最大个数b:数据值的最大长度，-1表示无限制 |
+
+​       
+
+# **Zookeeper集群**
+
+为了保证高可用，最好是以集群来部署 ZooKeeper。通常 3 台服务器就可以构成一个 ZooKeeper 集群了。ZooKeeper 官方提供的架构图就是一个 ZooKeeper 集群整体对外提供服务。
+
+![](https://javaguide.cn/assets/zookeeper%E9%9B%86%E7%BE%A4.6fdcc61e.png)
+
+上图中每一个 Server 代表一个安装 ZooKeeper 服务的服务器。组成 ZooKeeper 服务的服务器都会在内存中维护当前的服务器状态，并且每台服务器之间都互相保持着通信。集群间通过 ZAB 协议（ZooKeeper Atomic Broadcast）来保持数据的一致性。
+
+**最典型集群模式： Master/Slave 模式（主备模式）**。在这种模式中，通常 Master 服务器作为主服务器提供写服务，其他的 Slave 服务器从服务器通过异步复制的方式获取 Master 服务器最新的数据提供读服务。
+
+## **集群角色**
+
+- Leader： 领导者。
+
+事务请求（写操作）的唯一调度者和处理者，保证集群事务处理的顺序性；集群内部各个服务器的调度者。对于create、setData、delete等有写操作的请求，则要统一转发给leader处理，leader需要决定编号、执行操作，这个过程称为事务。
+
+- Follower: 跟随者
+
+处理客户端非事务（读操作）请求（可以直接响应），转发事务请求给Leader；参与集群Leader选举投票。
+
+- Observer: 观察者
+
+对于非事务请求可以独立处理（读操作），对于事务性请求会转发给leader处理。Observer节点接收来自leader的inform信息，更新自己的本地存储，不参与提交和选举投票。通常在不影响集群事务处理能力的前提下提升集群的非事务处理能力。
+
+Observer应用场景：
+
+- 提升集群的读性能。因为Observer和不参与提交和选举的投票过程，所以可以通过往集群里面添加observer节点来提高整个集群的读性能。
+- 跨数据中心部署。 比如需要部署一个北京和香港两地都可以使用的zookeeper集群服务，并且要求北京和香港客户的读请求延迟都很低。解决方案就是把香港的节点都设置为observer。
+
+leader节点可以处理读写请求，follower只可以处理读请求。follower在接到写请求时会把写请求转发给leader来处理。
+
+![](https://pic1.zhimg.com/80/v2-701dd8d4595b5f405a3e88c6f002c5ee_1440w.png)
+
+ZooKeeper 集群中的所有机器通过一个 **Leader 选举过程** 来选定一台称为 “**Leader**” 的机器，Leader 既可以为客户端提供写服务又能提供读服务。除了 Leader 外，**Follower** 和 **Observer** 都只能提供读服务。Follower 和 Observer 唯一的区别在于 Observer 机器不参与 Leader 的选举过程，也不参与写操作的“过半写成功”策略，因此 Observer 机器可以在不影响写性能的情况下提升集群的读性能。
+
+| 角色     | 说明                                                         |
+| -------- | ------------------------------------------------------------ |
+| Leader   | 为客户端提供读和写的服务，负责投票的发起和决议，更新系统状态。 |
+| Follower | 为客户端提供读服务，如果是写服务则转发给 Leader。参与选举过程中的投票。 |
+| Observer | 为客户端提供读服务，如果是写服务则转发给 Leader。不参与选举过程中的投票，也不参与“过半写成功”策略。在不影响写性能的情况下提升集群的读性能。此角色于 ZooKeeper3.3 系列新增的角色。 |
+
+当 Leader 服务器出现网络中断、崩溃退出与重启等异常情况时，就会进入 Leader 选举过程，这个过程会选举产生新的 Leader 服务器。
+
+## **Zookeeper Leader 选举原理**
+
+zookeeper 的 leader 选举存在两个阶段，一个是服务器启动时 leader 选举，另一个是运行过程中 leader 服务器宕机。
+
+在分析选举原理前，先介绍几个重要的参数：
+
+- 服务器 ID(myid)：编号越大在选举算法中权重越大
+- 事务 ID(zxid)：值越大说明数据越新，权重越大
+- 逻辑时钟(epoch-logicalclock)：同一轮投票过程中的逻辑时钟值是相同的，每投完一次值会增加
+
+选举状态：
+
+- LOOKING: 竞选状态
+- FOLLOWING: 随从状态，同步 leader 状态，参与投票
+- OBSERVING: 观察状态，同步 leader 状态，不参与投票
+- LEADING: 领导者状态
+
+**服务器启动时的 leader 选举**
+
+每个节点启动的时候都 LOOKING 观望状态，接下来就开始进行选举主流程。这里选取三台机器组成的集群为例。第一台服务器 server1启动时，无法进行 leader 选举，当第二台服务器 server2 启动时，两台机器可以相互通信，进入 leader 选举过程。
+
+- （1）每台 server 发出一个投票，由于是初始情况，server1 和 server2 都将自己作为 leader 服务器进行投票，每次投票包含所推举的服务器myid、zxid、epoch，使用（myid，zxid）表示，此时 server1 投票为（1,0），server2 投票为（2,0），然后将各自投票发送给集群中其他机器。
+- （2）接收来自各个服务器的投票。集群中的每个服务器收到投票后，首先判断该投票的有效性，如检查是否是本轮投票（epoch）、是否来自 LOOKING 状态的服务器。
+- （3）分别处理投票。针对每一次投票，服务器都需要将其他服务器的投票和自己的投票进行对比，对比规则如下：
+
+- - a. 优先比较 epoch
+  - b. 检查 zxid，zxid 比较大的服务器优先作为 leader
+  - c. 如果 zxid 相同，那么就比较 myid，myid 较大的服务器作为 leader 服务器
+
+- （4）统计投票。每次投票后，服务器统计投票信息，判断是都有过半机器接收到相同的投票信息。server1、server2 都统计出集群中有两台机器接受了（2,0）的投票信息，此时已经选出了 server2 为 leader 节点。
+- （5）改变服务器状态。一旦确定了 leader，每个服务器响应更新自己的状态，如果是 follower，那么就变更为 FOLLOWING，如果是 Leader，变更为 LEADING。此时 server3继续启动，直接加入变更自己为 FOLLOWING。
+
+![](https://note.youdao.com/yws/public/resource/f0549278905bb988c831d6910c54143a/xmlnote/C1C52BC4F168430AA227C3AEF05CC842/45570)
+
+**运行过程中的 leader 选举**
+
+当集群中 leader 服务器出现宕机或者不可用情况时，整个集群无法对外提供服务，进入新一轮的 leader 选举。
+
+- （1）变更状态。leader 挂后，其他非 Oberver服务器将自身服务器状态变更为 LOOKING。
+- （2）每个 server 发出一个投票。在运行期间，每个服务器上 zxid 可能不同。
+- （3）处理投票。规则同启动过程。
+- （4）统计投票。与启动过程相同。
+- （5）改变服务器状态。与启动过程相同。
+
+总结选举过程：
+
+1. **Leader election（选举阶段）**：节点在一开始都处于选举阶段，只要有一个节点得到超半数节点的票数，它就可以当选准 leader。
+2. **Discovery（发现阶段）** ：在这个阶段，followers 跟准 leader 进行通信，同步 followers 最近接收的事务提议。
+3. **Synchronization（同步阶段）** :同步阶段主要是利用 leader 前一阶段获得的最新提议历史，同步集群中所有的副本。同步完成之后 准 leader 才会成为真正的 leader。
+4. **Broadcast（广播阶段）** :到了这个阶段，ZooKeeper 集群才能正式对外提供事务服务，并且 leader 可以进行消息广播。同时如果有新的节点加入，还需要对新节点进行同步。
+
+## 集群中的服务器状态
+
+- **LOOKING** ：寻找 Leader。
+- **LEADING** ：Leader 状态，对应的节点为 Leader。
+- **FOLLOWING** ：Follower 状态，对应的节点为 Follower。
+- **OBSERVING** ：Observer 状态，对应节点为 Observer，该节点不参与 Leader 选举。
+
+## 选举的过半机制防止脑裂
+
+**什么是集群脑裂？**
+
+对于一个集群，通常多台机器会部署在不同机房，来提高这个集群的可用性。保证可用性的同时，会发生一种机房间网络线路故障，导致机房间网络不通，而集群被割裂成几个小集群。这时候子集群各自选主导致“脑裂”的情况。
+
+举例说明：比如现在有一个由 6 台服务器所组成的一个集群，部署在了 2 个机房，每个机房 3 台。正常情况下只有 1 个 leader，但是当两个机房中间网络断开的时候，每个机房的 3 台服务器都会认为另一个机房的 3 台服务器下线，而选出自己的 leader 并对外提供服务。若没有过半机制，当网络恢复的时候会发现有 2 个 leader。仿佛是 1 个大脑（leader）分散成了 2 个大脑，这就发生了脑裂现象。脑裂期间 2 个大脑都可能对外提供了服务，这将会带来数据一致性等问题。
+
+**过半机制是如何防止脑裂现象产生的？**
+
+ZooKeeper 的过半机制导致不可能产生 2 个 leader，因为少于等于一半是不可能产生 leader 的，这就使得不论机房的机器如何分配都不可能发生脑裂。
+
+# **Zookeeper 数据同步流程**
+
+ Zookeeper 中，主要依赖 ZAB 协议来实现分布式数据一致性。
+
+ZAB（ZooKeeper Atomic Broadcast 原子广播） 协议是为分布式协调服务 ZooKeeper 专门设计的一种支持崩溃恢复的原子广播协议。 在 ZooKeeper 中，主要依赖 ZAB 协议来实现分布式数据一致性，基于该协议，ZooKeeper 实现了一种主备模式的系统架构来保持集群中各个副本之间的数据一致性。
+
+ZAB 协议分为两部分：
+
+- 消息广播
+- 崩溃恢复
+
+**消息广播**
+
+Zookeeper 使用单一的主进程 Leader 来接收和处理客户端所有事务请求，并采用 ZAB 协议的原子广播协议，将事务请求以 Proposal 提议广播到所有 Follower 节点，当集群中有过半的Follower 服务器进行正确的 ACK 反馈，那么Leader就会再次向所有的 Follower 服务器发送commit 消息，将此次提案进行提交。这个过程可以简称为 2pc 事务提交，整个流程可以参考下图，注意 Observer 节点只负责同步 Leader 数据，不参与 2PC 数据同步过程。
+
+​    ![](https://note.youdao.com/yws/public/resource/f0549278905bb988c831d6910c54143a/xmlnote/75C0C12CE3AB4E729F408C2AFE869C3A/45559)
+
+**崩溃恢复**
+
+在正常情况消息下广播能运行良好，但是一旦 Leader 服务器出现崩溃，或者由于网络原理导致 Leader 服务器失去了与过半 Follower 的通信，那么就会进入崩溃恢复模式，需要选举出一个新的 Leader 服务器。在这个过程中可能会出现两种数据不一致性的隐患，需要 ZAB 协议的特性进行避免。
+
+- Leader 服务器将消息 commit 发出后，立即崩溃
+- Leader 服务器刚提出 proposal 后，立即崩溃
+
+ZAB 协议的恢复模式使用了以下策略：
+
+- 选举 zxid 最大的节点作为新的 leader
+- 新 leader 将事务日志中尚未提交的消息进行处理
+
+# 总结
+
+1. ZooKeeper 本身就是一个分布式程序（只要半数以上节点存活，ZooKeeper 就能正常服务）。
+2. 为了保证高可用，最好是以集群形态来部署 ZooKeeper，这样只要集群中大部分机器是可用的（能够容忍一定的机器故障），那么 ZooKeeper 本身仍然是可用的。
+3. ZooKeeper 将数据保存在内存中，这也就保证了 高吞吐量和低延迟（但是内存限制了能够存储的容量不太大，此限制也是保持 znode 中存储的数据量较小的进一步原因）。
+4. ZooKeeper 是高性能的。 在“读”多于“写”的应用程序中尤其地明显，因为“写”会导致所有的服务器间同步状态。（“读”多于“写”是协调服务的典型场景。）
+5. ZooKeeper 有临时节点的概念。 当创建临时节点的客户端会话一直保持活动，瞬时节点就一直存在。而当会话终结时，瞬时节点被删除。持久节点是指一旦这个 znode 被创建了，除非主动进行 znode 的移除操作，否则这个 znode 将一直保存在 ZooKeeper 上。
+6. **创建节点时，必须要带上全路径**，**delete 命令只能一层一层删除。**
