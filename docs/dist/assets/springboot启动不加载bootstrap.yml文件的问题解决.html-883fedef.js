@@ -1,0 +1,6 @@
+import{_ as e,W as t,X as a,a1 as n}from"./framework-2afc6763.js";const o={},r=n(`<h3 id="springboot启动不加载bootstrap-yml文件" tabindex="-1"><a class="header-anchor" href="#springboot启动不加载bootstrap-yml文件" aria-hidden="true">#</a> springboot启动不加载bootstrap.yml文件</h3><p>使用nacos做配置中心，但是程序启动失败，没有拉取配置中心的配置信息。</p><p>检查之后发现是bootstrap.yml文件没有被加载，在项目的pom.xml文件中添加如下依赖。</p><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-cloud-starter-bootstrap&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>重新导入依赖，然后重启项目，在项目日志里可以看到下面这一段信息，并且服务正常启动成功，说明服务启动成功。</p><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code>Ignore the empty nacos configuration and get it based on dataId[xxx.yml] &amp; group[DEFAULT_GROUP]
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div>`,6),s=[r];function d(i,l){return t(),a("div",null,s)}const p=e(o,[["render",d],["__file","springboot启动不加载bootstrap.yml文件的问题解决.html.vue"]]);export{p as default};
