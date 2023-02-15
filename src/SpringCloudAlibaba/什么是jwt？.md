@@ -137,7 +137,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4
 
 ### jwt使用
 
-是在请求头里加入Authorization，并加上Bearer标注：Authorization: Bearer <token>
+是在请求头里加入Authorization，并加上Bearer标注：`Authorization: Bearer <token>`
 
 下图显示了如何获取 JWT 并将其用于访问 API 或资源：
 
