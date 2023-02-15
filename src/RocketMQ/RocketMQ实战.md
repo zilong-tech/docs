@@ -50,7 +50,7 @@ category:
 
 这种可靠性同步地发送方式使用的比较广泛，比如：重要的消息通知。
 
-![](C:/Users/zys/AppData/Roaming/Typora/typora-user-images/image-20220612202454042.png)
+![](http://rpumme6gd.hb-bkt.clouddn.com/202302151704600.png)
 
 
 
