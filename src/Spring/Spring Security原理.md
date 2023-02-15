@@ -318,7 +318,7 @@ public void doFilter(ServletRequest request, ServletResponse response,
 
 
 
-2、**获取资源访问策略**，FilterSecurityInterceptor会从 SecurityMetadataSource 的子类DefaultFilterInvocationSecurityMetadataSource 获取要访问当前资源所需要的权限Collection<ConfigAttribute> 。 
+2、**获取资源访问策略**，FilterSecurityInterceptor会从 SecurityMetadataSource 的子类DefaultFilterInvocationSecurityMetadataSource 获取要访问当前资源所需要的权限`Collection<ConfigAttribute>` 。 
 
 SecurityMetadataSource其实就是读取访问策略的抽象，而读取的内容，其实就是我们配置的访问规则，读取访问策略如：
 
