@@ -219,7 +219,7 @@ export default defineUserConfig({
       // 已申请的微信公众号回复关键词
       keyword: '验证码',
       // 已申请的微信公众号二维码图片
-      qrcode: 'https://cdn.jsdelivr.net/gh/zilong-tech/images@master/20230202/qrcode.up9wbqvk6qo.jpg',
+      qrcode: 'http://rpumme6gd.hb-bkt.clouddn.com/202302152116611.jpg',
       // 文章内容的 JS 选择器，若使用的不是官方默认主题，则需要根据第三方的主题来设置
       selector: 'div.theme-hope-content',
       // 自定义的 JS 资源链接，可用于 CDN 加速
