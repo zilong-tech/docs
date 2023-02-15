@@ -147,8 +147,6 @@ F
 src/Kafka/MQ 入门.md,d\a\da27c279c8f4f76c0572626d5e168d0924fbf52b
 r
 Bsrc/Kafka/面试官：聊聊kafka线上使用会有哪些问题.md,4\a\4a544fe9648048f635926a8e1a3c50dfd3216e09
-J
-src/并发编程/Future.md,6\5\650358491538c0111946ebe3602568c9fff70c94
 G
 src/并发编程/JMM.md,b\2\b2b4eb6c23c2d2451c6a6665cfcd09dd79e208b1
 M
