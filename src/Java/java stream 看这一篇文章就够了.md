@@ -144,7 +144,7 @@ D. lambda的类型推断
 
 ```java
 // Lambda表达式的书写形式
-Runnable run = () -> System.out.println("Hello World");// 1
+Runnable run = () -> System.out.println("Hello World"); // 1
 ActionListener listener = event -> System.out.println("button clicked");// 2
 Runnable multiLine = () -> {// 3 代码块
     System.out.print("Hello");
@@ -180,20 +180,20 @@ BinaryOperator<Long> addImplicit = (x, y) -> x + y;// 5 类型推断
 
 | Interface            | functional method                            | 说明                                                     |
 | -------------------- | -------------------------------------------- | -------------------------------------------------------- |
-| Function<T,R>        | R apply(T t)                                 | 接收参数类型为T，返回参数类型为R                         |
-| IntFunction<R>       | R apply(int value)                           | 以下三个接口，指定了接收参数类型，返回参数类型为泛型R    |
-| LongFunction<R>      | R apply(long value)                          |                                                          |
-| Double<R>            | R apply(double value)                        |                                                          |
-| ToIntFunction<T>     | int applyAsInt(T value)                      | 以下三个接口，指定了返回参数类型，接收参数类型为泛型T    |
-| ToLongFunction<T>    | long applyAsLong(T value)                    |                                                          |
-| ToDoubleFunction<T>  | double applyAsDouble(T value)                |                                                          |
+| Function<T,R         | R apply(T t)                                 | 接收参数类型为T，返回参数类型为R                         |
+| IntFunction          | R apply(int value)                           | 以下三个接口，指定了接收参数类型，返回参数类型为泛型R    |
+| LongFunction         | R apply(long value)                          |                                                          |
+| Double               | R apply(double value)                        |                                                          |
+| ToIntFunction        | int applyAsInt(T value)                      | 以下三个接口，指定了返回参数类型，接收参数类型为泛型T    |
+| ToLongFunction       | long applyAsLong(T value)                    |                                                          |
+| ToDoubleFunction     | double applyAsDouble(T value)                |                                                          |
 | IntToLongFunction    | long applyAsLong(int value)                  | 以下六个接口，既指定了接收参数类型，也指定了返回参数类型 |
 | IntToDoubleFunction  | double applyAsLong(int value)                |                                                          |
 | LongToIntFunction    | int applyAsLong(long value)                  |                                                          |
 | LongToDoubleFunction | double applyAsLong(long value)               |                                                          |
 | DoubleToIntFunction  | int applyAsLong(double value)                |                                                          |
 | DoubleToLongFunction | long applyAsLong(double value)               |                                                          |
-| UnaryOperator<T>     | T apply(T t)                                 | 特殊的Function，接收参数类型和返回参数类型一样           |
+| UnaryOperator        | T apply(T t)                                 | 特殊的Function，接收参数类型和返回参数类型一样           |
 | IntUnaryOperator     | int applyAsInt(int left, int right)          | 以下三个接口，指定了接收参数和返回参数类型，并且都一样   |
 | LongUnaryOperator    | long applyAsInt(long left, long right)       |                                                          |
 | DoubleUnaryOperator  | double applyAsInt(double left, double right) |                                                          |
@@ -206,7 +206,7 @@ BinaryOperator<Long> addImplicit = (x, y) -> x + y;// 5 类型推断
 | ToIntBiFunction<T,U>    | int applyAsInt(T t, U u)                     | 以下三个接口，指定了返回参数类型，接收参数类型分别为泛型T, U |
 | ToLongBiFunction<T,U>   | long applyAsLong(T t, U u)                   |                                                              |
 | ToDoubleBiFunction<T,U> | double appleyAsDouble(T t, U u)              |                                                              |
-| BinaryOperator<T>       | T apply(T t, T u)                            | 特殊的BiFunction, 接收参数和返回参数类型一样                 |
+| BinaryOperator          | T apply(T t, T u)                            | 特殊的BiFunction, 接收参数和返回参数类型一样                 |
 | IntBinaryOperator       | int applyAsInt(int left, int right)          |                                                              |
 | LongBinaryOperator      | long applyAsInt(long left, long right)       |                                                              |
 | DoubleBinaryOperator    | double applyAsInt(double left, double right) |                                                              |
@@ -219,19 +219,19 @@ BinaryOperator<Long> addImplicit = (x, y) -> x + y;// 5 类型推断
 
 | interface      | functional method         | 说明                               |
 | -------------- | ------------------------- | ---------------------------------- |
-| Consumer<T>    | void accept(T t)          | 接收一个泛型参数，无返回值         |
+| Consumer       | void accept(T t)          | 接收一个泛型参数，无返回值         |
 | IntConsumer    | void accept(int value)    | 以下三个类，接收一个指定类型的参数 |
 | LongConsumer   | void accept(long value)   |                                    |
 | DoubleConsumer | void accept(double value) |                                    |
 
 ### 接收两个参数
 
-| interface            | functional method              | 说明                                             |
-| -------------------- | ------------------------------ | ------------------------------------------------ |
-| BiConsumer<T,U>      | void accept(T t, U u)          | 接收两个泛型参数                                 |
-| ObjIntConsumer<T>    | void accept(T t, int value)    | 以下三个类，接收一个泛型参数，一个指定类型的参数 |
-| ObjLongConsumer<T>   | void accept(T t, long value)   |                                                  |
-| ObjDoubleConsumer<T> | void accept(T t, double value) |                                                  |
+| interface         | functional method              | 说明                                             |
+| ----------------- | ------------------------------ | ------------------------------------------------ |
+| BiConsumer<T,U>   | void accept(T t, U u)          | 接收两个泛型参数                                 |
+| ObjIntConsumer    | void accept(T t, int value)    | 以下三个类，接收一个泛型参数，一个指定类型的参数 |
+| ObjLongConsumer   | void accept(T t, long value)   |                                                  |
+| ObjDoubleConsumer | void accept(T t, double value) |                                                  |
 
 ## Supplier
 
@@ -239,7 +239,7 @@ BinaryOperator<Long> addImplicit = (x, y) -> x + y;// 5 类型推断
 
 | interface       | functional method      | 说明                       |
 | --------------- | ---------------------- | -------------------------- |
-| Supplier<T>     | T get()                | 返回类型为泛型T            |
+| Supplier        | T get()                | 返回类型为泛型T            |
 | BooleanSupplier | boolean getAsBoolean() | 以下三个接口，返回指定类型 |
 | IntSupplier     | int getAsInt()         |                            |
 | LongSupplier    | long getAsLong()       |                            |
@@ -251,7 +251,7 @@ BinaryOperator<Long> addImplicit = (x, y) -> x + y;// 5 类型推断
 
 | interface        | functional method          | 说明                             |
 | ---------------- | -------------------------- | -------------------------------- |
-| Predicate<T>     | boolean test(T t)          | 接收一个泛型参数                 |
+| Predicate        | boolean test(T t)          | 接收一个泛型参数                 |
 | IntPredicate     | boolean test(int value)    | 以下三个接口，接收指定类型的参数 |
 | LongPredicate    | boolean test(long value)   |                                  |
 | DoublePredicate  | boolean test(double value) |                                  |
@@ -552,10 +552,12 @@ public interface BiFunction<T, U, R> {
 
 **方法一 reduce(BinaryOperator accumulator)**
 
-reduce(BinaryOperator<T> accumulator)方法需要一个函数式接口参数`，该函数式接口需要`两个参数`，返回`一个结果`(reduce中返回的结果会作为下次累加器计算的第一个参数)，也就是`累加器`,最终得到一个`Optional对象
 
-```
 
+```java
+
+//reduce(BinaryOperator<T> accumulator)方法需要一个函数式接口参数`，该函数式接口需要`两个参数`，返回`一个结果`(reduce中
+//返回的结果会作为下次累加器计算的第一个参数)，也就是`累加器`,最终得到一个`Optional对象
 //最长单词
 Stream<String> stream1 = Stream.of("we", "are", "family");
 Optional<String> longest = stream1.reduce((s1, s2) -> s1.length()>=s2.length() ? s1 : s2);
@@ -576,7 +578,7 @@ System.out.println(longest.get()); // family
 
 identity参数与Stream中数据同类型，相当于一个的`初始值`，通过累加器`accumulator迭代计算Stream中的数据`，得到一个跟Stream中数据相同类型的最终结果。
 
-```
+```java
 //求和
 int s = Stream.of(1, 2, 3, 4, 5, 6, 7, 8, 9).reduce(-45, (acc, n) -> acc + n);
 System.out.println(s); // 0

@@ -83,9 +83,9 @@ export default defineUserConfig({
       },
 
       {
-        text:"Java基础",
+        text:"Java",
         icon:"info",
-        link:"/Java基础/"
+        link:"/Java/"
       },
       {
         text:"JVM",
@@ -172,7 +172,7 @@ export default defineUserConfig({
       "/分布式事务/":"structure",
       "/设计模式/":"structure",
       "/MySQL/":"structure",
-      "/Java基础/":"structure",
+      "/Java/":"structure",
       "/Redis/":"structure",
       "/Spring/":"structure",
       "/Kafka/":"structure",
@@ -199,7 +199,7 @@ export default defineUserConfig({
 
   plugins: [
     seoPlugin({
-      "hostname":"https://zilong-tech.github.io/docs/"
+      "hostname": "https://zilong-tech.github.io/docs/"
     }),
 
     autoCatalogPlugin({
@@ -209,6 +209,7 @@ export default defineUserConfig({
     searchPlugin({
       // 你的选项
     }),
+
 
     readmorePlugin({
       // 已申请的博客 ID
