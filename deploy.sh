@@ -14,6 +14,8 @@ mv -f dist ../../
 
 cd ../../
 
+rm -rf docs
+
 mv dist docs
 
 git add .
