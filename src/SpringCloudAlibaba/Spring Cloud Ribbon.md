@@ -12,7 +12,7 @@ Spring Cloud Ribbon是基于Netflix Ribbon 实现的一套客户端的负载均�
 
 Ribbon 本地负载均衡，在调用微服务接口时候，会在注册中心上获取注册信息服务列表之后缓存到 JVM 本地，从而在本地实现 RPC 远程服务调用技术。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202204102203625.jpg)
+![](http://img.xxfxpt.top/202204102203625.jpg)
 
 ## 负载方案
 
@@ -41,7 +41,7 @@ Nginx 是服务器负载均衡，客户端所有请求都会交给 nginx，然�
 
 **Spring Cloud快速整合Ribbon**
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202204102337425.png)
+![](http://img.xxfxpt.top/202204102337425.png)
 
 在order模块中定义接口：
 

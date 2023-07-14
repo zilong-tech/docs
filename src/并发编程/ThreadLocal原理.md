@@ -18,7 +18,7 @@ ThreadLocal的作用主要是做数据隔离，填充的数据只属于当前线
 
 ThreadLocal内部维护的是一个类似Map的ThreadLocalMap数据结构
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202203071440470.png)
+![](http://img.xxfxpt.top/202203071440470.png)
 
 当执行set方法时，ThreadLocal首先会获取当前线程对象，然后获取当前线程的ThreadLocalMap对象。再以当前ThreadLocal对象为key，将值存储进ThreadLocalMap对象中。
 
@@ -76,7 +76,7 @@ static class ThreadLocalMap {
 
 ThreadLocal在保存的时候会把自己当做Key存在ThreadLocalMap中，正常情况应该是key和value都应该被外界强引用才对，但是现在key被设计成WeakReference弱引用了。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202203071533801.png)
+![](http://img.xxfxpt.top/202203071533801.png)
 
 接着看createMap
 
@@ -281,7 +281,7 @@ try {
 
 ThreadLocal的实现原理，每一个Thread维护一个ThreadLocalMap，key为使用**弱引用**的ThreadLocal实例，value为线程变量的副本。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202203071519614.png)
+![](http://img.xxfxpt.top/202203071519614.png)
 
 threadLocalMap使用ThreadLocal的弱引用作为key，如果一个ThreadLocal不存在外部**强引用**时，Key(ThreadLocal)势必会被GC回收，这样就会导致ThreadLocalMap中key为null， 而value还存在着强引用，只有thead线程退出以后,value的强引用链条才会断掉，但如果当前线程再迟迟不结束的话，这些key为null的Entry的value就会一直存在一条强引用链（红色链条）
 

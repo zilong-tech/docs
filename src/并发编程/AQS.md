@@ -10,7 +10,7 @@ category:
 
 AQS 的全称为 `AbstractQueuedSynchronizer` ，翻译过来的意思就是抽象队列同步器。这个类在 `java.util.concurrent.locks` 包下面。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202251046436.png)
+![](http://img.xxfxpt.top/202202251046436.png)
 
 AQS 就是一个抽象类，主要用来构建锁和同步器。
 
@@ -207,7 +207,7 @@ public final boolean release(int arg) {
 
 **AQS 实现锁的主要原理如下：**
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202251521952.png)
+![](http://img.xxfxpt.top/202202251521952.png)
 
 以实现独占锁为例（即当前资源只能被一个线程占有），其实现原理如下：state 初始化 0，在多线程条件下，线程要执行临界区的代码，必须首先获取 state，某个线程获取成功之后， state 加 1，其他线程再获取的话由于共享资源已被占用，所以会到 FIFO 等待队列去等待，等占有 state 的线程执行完临界区的代码释放资源( state 减 1)后，会唤醒 FIFO 中的下一个等待线程（head 中的下一个结点）去获取 state。
 
@@ -236,7 +236,7 @@ protected final boolean compareAndSetState(int expect, int update) {
 
 ReentrantLock 是我们比较常用的一种锁，也是基于 AQS 实现的，所以接下来我们就来分析一下 ReentrantLock 锁的实现来一探 AQS 究竟。本文将会采用图文并茂的方式让大家理解 AQS 的实现原理。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202261718535.png)
+![](http://img.xxfxpt.top/202202261718535.png)
 
 首先我们要知道 ReentrantLock 是独占锁，也有公平和非公平两种锁模式，什么是公平锁与非公平锁?
 
@@ -321,15 +321,15 @@ nonfairTryAcquire方法分为两种情况：
 
 假设当前 state = 0，即锁不被占用，现在有 T1, T2, T3 这三个线程要去竞争锁
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202261900599.png)
+![](http://img.xxfxpt.top/202202261900599.png)
 
 假设现在 T1 获取锁成功，则两种情况分别为 1、 T1 首次获取锁成功
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202261901363.png)
+![](http://img.xxfxpt.top/202202261901363.png)
 
  T1 再次获取锁成功，state 再加 1，表示锁被重入了两次，当前如果 T1一直申请占用锁成功，state 会一直累加
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202261902095.png)
+![](http://img.xxfxpt.top/202202261902095.png)
 
 如果 tryAcquire(arg) 执行失败，代表获取锁失败，则执行 acquireQueued 方法，将线程加入 FIFO 等待队列
 
@@ -395,15 +395,15 @@ private Node enq(final Node node) {
 
 1、假设 T1 获取锁成功，由于此时 FIFO 未初始化，所以先创建 head 结点
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202261914915.png)
+![](http://img.xxfxpt.top/202202261914915.png)
 
 2、此时 T2 或 T3 再去竞争 state 失败，入队，如下图:
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202262211594.png)
+![](http://img.xxfxpt.top/202202262211594.png)
 
 好了，现在问题来了， T2，T3 入队后怎么处理，是马上阻塞吗，马上阻塞意味着线程从运行态转为阻塞态 ，涉及到用户态向内核态的切换，而且唤醒后也要从内核态转为用户态，开销相对比较大，所以 AQS 对这种入队的线程采用的方式是让它们自旋来竞争锁，如下图示
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202262213416.png)
+![](http://img.xxfxpt.top/202202262213416.png)
 
 
 
@@ -458,7 +458,7 @@ final boolean acquireQueued(final Node node, int arg) {
 
 先来看第一种情况，如果当前结点的前一个节点是 head 结点，且获取锁（tryAcquire）成功的处理
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202262223984.jpg)
+![](http://img.xxfxpt.top/202202262223984.jpg)
 
 可以看到主要的处理就是把 head 指向当前节点，并且让原 head 结点出队，这样由于原 head 不可达， 会被垃圾回收。
 
@@ -499,7 +499,7 @@ private static boolean shouldParkAfterFailedAcquire(Node pred, Node node) {
 
 1、 首先我们要明白，根据之前 Node 类的注释，如果前驱节点为 SIGNAL，则当前节点可以进入阻塞状态。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202262228094.jpg)
+![](http://img.xxfxpt.top/202202262228094.jpg)
 
 
 
@@ -507,7 +507,7 @@ private static boolean shouldParkAfterFailedAcquire(Node pred, Node node) {
 
 2、如果前驱节点为取消状态，则前驱节点需要移除，这些采用了一个更巧妙的方法，把所有当前节点之前所有 waitStatus 为取消状态的节点全部移除，假设有四个线程如下，T2，T3 为取消状态，则执行逻辑后如下图所示，T2, T3 节点会被 GC。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202262232027.png)
+![](http://img.xxfxpt.top/202202262232027.png)
 
 3、如果前驱节点小于等于 0，则需要首先将其前驱节点置为 SIGNAL,因为前文我们分析过，当前节点进入阻塞的一个条件是前驱节点必须为 SIGNAL，这样下一次自旋后发现前驱节点为 SIGNAL，就会返回 true（即步骤 1）
 
@@ -594,11 +594,11 @@ z
 
 1、首先第一步当前节点之前有取消结点时，则逻辑如下
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202262237045.png)
+![](http://img.xxfxpt.top/202202262237045.png)
 
 2、如果当前结点既非头结点的后继结点，也非尾结点，即步骤 1 所示，则最终结果如下
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202262238826.jpg)
+![](http://img.xxfxpt.top/202202262238826.jpg)
 
 
 
@@ -623,21 +623,21 @@ private static boolean shouldParkAfterFailedAcquire(Node pred, Node node) {
 
 所以当 T4 执行这段代码时，会变成如下情况
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202262239593.jpg)
+![](http://img.xxfxpt.top/202202262239593.jpg)
 
 可以看到此时中间的两个 CANCEL 节点不可达了，会被 GC
 
 3、如果当前结点为 tail 结点，则结果如下，这种情况下当前结点不可达，会被 GC
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202262240206.jpg)
+![](http://img.xxfxpt.top/202202262240206.jpg)
 
 4、如果当前结点为 head 的后继结点时，如下
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202262242293.jpg)
+![](http://img.xxfxpt.top/202202262242293.jpg)
 
 结果中的 CANCEL 结点同样会在 tail 结点自旋调用 shouldParkAfterFailedAcquire 后不可达，如下
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202262243364.jpg)
+![](http://img.xxfxpt.top/202202262243364.jpg)
 
 
 

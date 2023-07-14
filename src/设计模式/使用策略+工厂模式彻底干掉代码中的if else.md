@@ -10,7 +10,7 @@ category:
 
 一旦代码中if-else过多，就会大大的影响其可读性和可维护性。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205282145773.png)
+![](http://img.xxfxpt.top/202205282145773.png)
 
 其实，if-else是有办法可以消除掉的，其中比较典型的并且使用广泛的就是借助策略模式和工厂模式，准确的说是利用这两个设计模式的思想，彻底消灭代码中的if-else。
 

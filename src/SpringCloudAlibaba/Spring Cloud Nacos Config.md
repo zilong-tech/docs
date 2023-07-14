@@ -168,7 +168,7 @@ Group  :    DEFAULT_GROUP
 | Note | 注意dataid是以 properties(默认的文件扩展名方式)为扩展名 |
 | ---- | ------------------------------------------------------- |
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202204112338313.png)
+![](http://img.xxfxpt.top/202204112338313.png)
 
 使用
 

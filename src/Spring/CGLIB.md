@@ -12,7 +12,7 @@ CGLIB是一个强大的、高性能的代码生成库。采用非常底层的字
 
 CGLIB代理主要通过对字节码的操作，以控制对象的访问。 CGLIB底层使用了ASM（一个短小精悍的字节码操作框架）来操作字节码生成新的类。 CGLIB相比于JDK动态代理更加强大： Java动态代理使用Java原生的反射API进行操作（运行期），在生成类上比较高效。 CGLIB使用ASM框架直接对字节码进行操作（编译期），在类的执行过程中比较高效
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202112191546217.png)
+![](http://img.xxfxpt.top/202112191546217.png)
 
 # 为什么使用CGLIB
 
@@ -177,7 +177,7 @@ System.setProperty(DebuggingClassWriter.DEBUG_LOCATION_PROPERTY, "d:\\temp");
 
 再次执行程序，我们可以看到在对应目录下生成三个class文件：
 
-![image-20211220220546827](https://gitee.com/zysspace/pic/raw/master/images/202112202205492.png)
+![image-20211220220546827](http://img.xxfxpt.top/202112202205492.png)
 
 反编译后
 

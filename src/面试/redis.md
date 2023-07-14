@@ -126,11 +126,11 @@ String get(String key) {
 
 双写不一致
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202204021240026.png)
+![](http://img.xxfxpt.top/202204021240026.png)
 
 读写不一致
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202204021442983.png)
+![](http://img.xxfxpt.top/202204021442983.png)
 
 1、对于并发几率很小的数据(如个人维度的订单数据、用户数据等)，这种几乎不用考虑这个问题，很少会发生缓存不一致，可以给缓存数据加上过期时间，每隔一段时间触发读的主动更新即可。 
 
@@ -140,7 +140,7 @@ String get(String key) {
 
 4、可以用阿里开源的canal通过监听数据库的binlog日志及时的去修改缓存，但是引入了新的中间件，增加了系统的复杂度。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202204021444877.png)
+![](http://img.xxfxpt.top/202204021444877.png)
 
 
 

@@ -118,7 +118,7 @@ failFast：如果为 true，则表示读取到长度域，TA 的值的超过 max
 
 1、数据包大小: 14B =长度域 2B + "HELLO, WORLD"（单词 HELLO+一个逗号+一个空格+单词 WORLD 占12B）
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205221906032.png)
+![](http://img.xxfxpt.top/202205221906032.png)
 
   lengthFieldOffset   = 0
   lengthFieldLength   = 2
@@ -127,7 +127,7 @@ failFast：如果为 true，则表示读取到长度域，TA 的值的超过 max
 
 2、数据包大小: 14B =长度域2B + "HELLO, WORLD
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205222045754.png)
+![](http://img.xxfxpt.top/202205222045754.png)
 
 长度域的值为 12B(0x000c)。解码后，希望丢弃长度域 2B 字段，所以，只要 initialBytesToStrip = 2 即可。 
 
@@ -141,7 +141,7 @@ initialBytesToStrip = 2 解码过程中，丢弃 2 个字节的数据
 
 3、数据包大小: 14B =长度域 2B + "HELLO, WORLD"。长度域的值为14(0x000E)
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205222105052.png)
+![](http://img.xxfxpt.top/202205222105052.png)
 
 长度域的值为 14(0x000E)，包含了长度域本身的长度。希望解码后保持一样，根据上面的公式，参数应该为： 
 
@@ -155,7 +155,7 @@ initialBytesToStrip = 0 - 解码过程中，没有丢弃任何数据
 
 4、在长度域前添加2个字节的Header。长度域的值(0x00000C) = 12。总数据包长度**:** 17=Header(2B) + 长度域(3B) + "HELLO, WORLD"
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205222052384.png)
+![](http://img.xxfxpt.top/202205222052384.png)
 
 长度域的值为 12B(0x000c)。编码解码后，长度保持一致，所以 initialBytesToStrip = 0。 参数应该为: 
 
@@ -169,7 +169,7 @@ initialBytesToStrip = 0 - 解码过程中，没有丢弃任何数据
 
 5、Header与长度域的位置换了。总数据包长度: 17=长度域(3B) + Header(2B) + "HELLO,WORLD"
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205222054340.png)
+![](http://img.xxfxpt.top/202205222054340.png)
 
 长度域的值为 12B(0x000c)。编码解码后，长度保持一致，所以 initialBytesToStrip = 0。 参数应该为: 
 
@@ -183,7 +183,7 @@ initialBytesToStrip = 0 - 解码过程中，没有丢弃任何数据
 
 6、带有两个 header。HDR1丢弃，长度域丢弃，只剩下第二个header 和有效包体，这种协议中，一般HDR1可以表示magicNumber表示应用只接受以该 magicNumber 开头的二进制数据，rpc 里面用的比较多。总数据包长度: 16=HDR1(1B)+长度域(2B) +HDR2(1B) + "HELLO,WORLD"
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205222058587.png)
+![](http://img.xxfxpt.top/202205222058587.png)
 
 长度域的值为 12B(0x000c) 
 
@@ -197,7 +197,7 @@ initialBytesToStrip = 3 丢弃了 HDR1 和长度字段
 
 7、带有两个header，HDR1 丢弃，长度域丢弃，只剩下第二个header 和有效包体。总数据包长度: 16=HDR1(1B)+长度域(2B) +HDR2(1B) + "HELLO, WORLD"
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205222101638.png)
+![](http://img.xxfxpt.top/202205222101638.png)
 
 长度域的值为 16B(0x0010)，长度为 2，HDR1 的长度为 1，HDR2 的长度为 1，包体的长度为 12，1+1+2+12=16。 
 

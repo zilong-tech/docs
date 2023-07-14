@@ -114,7 +114,7 @@ Spring Cloud为开发人员提供了快速构建分布式系统中的一些常�
 
 ## Spring Cloud有哪些组件
 
-![](https://cdn.jsdelivr.net/gh/zilong-tech/images@master/20230202/image.uzm3b8gug2o.png)
+![](http://img.xxfxpt.top/202304171539747.png)
 
 核心组件
 
@@ -135,9 +135,9 @@ Spring Cloud为开发人员提供了快速构建分布式系统中的一些常�
 - Hystrix Dashboard，监控面板，他提供了一个界面，可以监控各个服务上的服务调用所消耗的时间等。
 - Turbine，监控聚合，使用Hystrix监控，我们需要打开每一个服务实例的监控信息来查看。而Turbine可以帮助我们把所有的服务实例的监控信息聚合到一个地方统一查看。这样就不需要挨个打开一个个的页面一个个查看。
 
-​    ![](https://cdn.jsdelivr.net/gh/zilong-tech/images@master/20230202/image.249e19i94dxc.png)
+​    ![](http://img.xxfxpt.top/202304171550407.png)
 
-​    ![](https://cdn.jsdelivr.net/gh/zilong-tech/images@master/20230202/image.4hxvfqt7n6w0.png)
+​    ![](http://img.xxfxpt.top/202304171550186.png)
 
 **Spring Cloud Alibaba包含的组件**
 
@@ -147,7 +147,7 @@ Spring Cloud为开发人员提供了快速构建分布式系统中的一些常�
 
 作为 Spring Cloud 体系下的新实现，Spring Cloud Alibaba 跟官方的组件或其它的第三方实现如 Netflix, Consul，Zookeeper 等对比，具备了更多的功能:
 
- ![](https://cdn.jsdelivr.net/gh/zilong-tech/images@master/20230202/image.1hybferk62ao.png)
+ ![](http://img.xxfxpt.top/202304171722402.png)
 
 **阿里开源组件**
 
@@ -177,4 +177,4 @@ Arthas：开源的Java动态追踪工具，基于字节码增强技术，功能�
 
 最新的版本选择： Spring Cloud Alibaba 2.2.5.RELEASE
 
-​    ![](https://cdn.jsdelivr.net/gh/zilong-tech/images@master/20230202/image.5muw7m1wd140.png)
+​    ![](http://img.xxfxpt.top/202304171723102.png)

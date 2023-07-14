@@ -58,7 +58,7 @@ insert into leaf_alloc(biz_tag, max_id, step, description) values('leaf-segment-
 
 注意调用接口的key，是表中的 biz_tag 字段值。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202204242237500.png)
+![](http://img.xxfxpt.top/202204242237500.png)
 
 优点：
 
@@ -99,7 +99,7 @@ leaf.snowflake.port=2181
 
 访问：http://127.0.0.1:8080/api/snowflake/get/leaf-segment-test
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202204242229189.png)
+![](http://img.xxfxpt.top/202204242229189.png)
 
 - 优点：
   ID号码是趋势递增的8 byte的64位数字，满足上述数据库存储的主键要求。

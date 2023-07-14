@@ -1,6 +1,10 @@
 ---
 title: 单点登录
 author: 程序员子龙
+head:
+   - - meta
+     - name: keywords
+       content: 微服务单点登录 springcloudAlibaba 单点登录
 index: true
 icon: discover
 category:
@@ -12,7 +16,7 @@ category:
 
 流程如下：
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205032101918.png)
+![](http://img.xxfxpt.top/202205032101918.png)
 
 ### **搭建微服务授权中心 auth**
 
@@ -37,7 +41,7 @@ JWT令牌的优点：
 
 一个JWT实际上就是一个字符串，它由三部分组成，头部（header）、载荷（payload）与签名（signature）。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205031621359.png)
+![](http://img.xxfxpt.top/202205031621359.png)
 
 **头部（header）**
 
@@ -148,7 +152,7 @@ keytool -genkeypair -alias jwt -keyalg RSA -keysize 2048 -keystore D:/jwt.jks
 
 将生成的jwt.jks文件放到授权服务器的resource目录下
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205031642325.png)
+![](http://img.xxfxpt.top/202205031642325.png)
 
 查看公钥信息
 
@@ -530,15 +534,15 @@ public class UserController {
 http://localhost:9999/oauth/token?username=test&password=test&grant_type=password&client_id=member&client_secret=123123&scope=read
 ```
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205031651985.png)
+![](http://img.xxfxpt.top/202205031651985.png)
 
 #### 获取token_key
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205031652273.png)
+![](http://img.xxfxpt.top/202205031652273.png)
 
 #### 测试携带token访问资源
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205031656594.png)
+![](http://img.xxfxpt.top/202205031656594.png)
 
 也可以请求头配置Authorization
 
@@ -546,7 +550,7 @@ http://localhost:9999/oauth/token?username=test&password=test&grant_type=passwor
 
 #### 校验token
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205031658873.png)
+![](http://img.xxfxpt.top/202205031658873.png)
 
 ### 配置网关服务
 
@@ -858,15 +862,15 @@ public class JwtUtils {
 
 网关的端口是8888
 
-![](http://rpumme6gd.hb-bkt.clouddn.com/202302152044421.png)
+![](http://img.xxfxpt.top/202302152044421.png)
 
 #### 登录
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205031750723.png)
+![](http://img.xxfxpt.top/202205031750723.png)
 
 #### 使用token
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205031850573.png)
+![](http://img.xxfxpt.top/202205031850573.png)
 
 ### 总结
 

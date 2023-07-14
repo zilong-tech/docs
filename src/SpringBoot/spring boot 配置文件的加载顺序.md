@@ -17,7 +17,7 @@ SpringApplication 类默认会把以“**--**”开头的**命令行参数**转�
 
 在idea中设置 VM options
 
-![image-20220421221932320](https://gitee.com/zysspace/pic/raw/master/images/202204212219982.png)
+![image-20220421221932320](http://img.xxfxpt.top/202204212219982.png)
 
 启动脚本中设置
 

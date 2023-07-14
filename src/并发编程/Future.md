@@ -8,7 +8,7 @@ category:
 ---
 ### 类图
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202201011859581.png)
+![](http://img.xxfxpt.top/202201011859581.png)
 
 ### **Future 主要功能**
 
@@ -20,13 +20,13 @@ category:
 - V get () throws InterruptedException, ExecutionException  等待任务执行结束，然后获得V类型的结果。InterruptedException 线程被中断异常， ExecutionException任务执行异常，如果任务被取消，还会抛出CancellationException
 - V get (long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException 同上面的get功能一样，多了设置超时时间。参数timeout指定超时时间，uint指定时间的单位，在枚举类TimeUnit中有相关的定义。如果计算超时，将抛出TimeoutException
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202201011846026.png)
+![](http://img.xxfxpt.top/202201011846026.png)
 
 ### Future的应用场景
 
 在查询商品信息（包括商品基本信息、商品价格、商品库存、商品图片、商品销售状态等）。这些信息分布在不同的业务中心，由不同的系统提供服务。如果采用同步方式，假设一个接口需要50ms，那么一个商品查询下来就需要200ms-300ms，这对于我们来说是不满意的。如果使用Future改造则需要的就是最长耗时服务的接口，也就是50ms左右。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202201011930527.png)
+![](http://img.xxfxpt.top/202201011930527.png)
 
 ### **Future**使用
 
@@ -34,7 +34,7 @@ category:
 
 Future实际采用FutureTask实现，该对象相当于是消费者和生产者的桥梁，消费者通过 FutureTask 存储任务的处理结果，更新任务的状态：未开始、正在处理、已完成等。而生产者拿到的 FutureTask 被转型为 Future 接口，可以阻塞式获取任务的处理结果，非阻塞式获取任务处理状态。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202201011906269.png)
+![](http://img.xxfxpt.top/202201011906269.png)
 
 ```java
 public class FutureTaskDemo {
@@ -89,7 +89,7 @@ JDK1.8 才新加入的一个实现类 CompletableFuture，实现了 `Future<T>�
 
 **CompletableFuture是Future接口的扩展和增强**。CompletableFuture实现了Future接口，并在此基础上进行了丰富地扩展，完美地弥补了Future上述的种种问题。更为重要的是，**CompletableFuture实现了对任务的编排能力**。借助这项能力，我们可以轻松地组织不同任务的运行顺序、规则以及方式。从某种程度上说，这项能力是它的核心能力。而在以往，虽然通过CountDownLatch等工具类也可以实现任务的编排，但需要复杂的逻辑处理，不仅耗费精力且难以维护。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202201012144408.png)
+![](http://img.xxfxpt.top/202201012144408.png)
 
 **CompletionStage接口:** 执行某一个阶段，可向下执行后续阶段。异步执行，默认线程池是ForkJoinPool.commonPool()。它代表 
 
@@ -755,7 +755,7 @@ public static CompletableFuture<Void> allOf(CompletableFuture<?>... cfs)
 
 **CompletableFuture常用方法总结**
 
-![image-20220102181655037](https://gitee.com/zysspace/pic/raw/master/images/202201021817522.png)
+![image-20220102181655037](http://img.xxfxpt.top/202201021817522.png)
 
 **应用场景**
 

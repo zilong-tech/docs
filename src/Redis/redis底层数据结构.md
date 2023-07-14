@@ -12,7 +12,7 @@ Redis面试中经常被问到，Redis效率为什么这么快，很多同学往�
 
 今天来聊下redis的底层数据结构
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202111292231630.webp)
+![](http://img.xxfxpt.top/202111292231630.webp)
 
 ### 简单动态字符串(Simple dynamic string,SDS)
 
@@ -46,7 +46,7 @@ C语言字符串使用长度为n+1的字符数组来表示长度为n的字符串
 
  C语言字符串不记录自身长度，如果想获取自身长度必须遍历整个字符串，对每个字符进行计数，这个操作时间复杂度是O(n)。相比较而言，Redis程序只要访问SDS的len属性就可以直接获取到字符串长度，时间复杂度为O(1)，确保获取字符串长度不会成为Redis性能瓶颈，比如对字符串键反复执行strlen命令。如：获取“Redis”字符串长度时程序会直接访问len属性即可，该字符串长度为5。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202111281058631.png)
+![](http://img.xxfxpt.top/202111281058631.png)
 
 5、惰性删除机制，字符串缩减后的空间不释放，作为预分配空间保留。 
 
@@ -127,7 +127,7 @@ alloc - len = free
 
 用图表示是这样的
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202111292238563.webp)
+![](http://img.xxfxpt.top/202111292238563.webp)
 
 结构中的每个成员变量分别介绍下：
 
@@ -138,7 +138,7 @@ alloc - len = free
 
 新版带来的好处就是针对长度不同的字符串做了优化，选取不同的数据类型uint8_t或者uint16_t或者uint32_t等来表示长度、一共申请字节的大小等。上面结构体中的__attribute__ ((__packed__)) 设置是告诉编译器取消字节对齐，则结构体的大小就是按照结构体成员实际大小相加得到的。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202111281212462.png)
+![](http://img.xxfxpt.top/202111281212462.png)
 
 为什么设计成5种数据结构？
 
@@ -281,7 +281,7 @@ Hash 表优点在于，它**能以 O(1) 的复杂度快速查询数据**。主�
 
 举个例子，有一个可以存放 8 个哈希桶的哈希表。key1 经过哈希函数计算后，再将「哈希值 % 8 」进行取模计算，结果值为 1，那么就对应哈希桶 1，类似的，key9 和 key10 分别对应哈希桶 1 和桶 6。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202111292307150.webp)
+![](http://img.xxfxpt.top/202111292307150.webp)
 
 此时，key1 和 key9 对应到了相同的哈希桶中，这就发生了哈希冲突。
 
@@ -295,7 +295,7 @@ Redis 采用了「**链式哈希**」的方法来解决哈希冲突。
 
 还是用前面的哈希冲突例子，key1 和 key9 经过哈希计算后，都落在同一个哈希桶，链式哈希的话，key1 就会通过 next 指针指向 key9，形成一个单向链表。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202111292308420.webp)
+![](http://img.xxfxpt.top/202111292308420.webp)
 
 不过，链式哈希局限性也很明显，随着链表长度的增加，在查询这一位置上的数据的耗时就会增加，毕竟链表的查询的时间复杂度是 O（n）。
 
@@ -321,7 +321,7 @@ Redis在rehash时采取渐进式的原因：**数据量如果过大的话，一�
 
 4、在渐进式rehash过程中，字典会同时使用两个哈希表ht[0]和ht[1]，所有的更新、删除、查找操作也会在两个哈希表进行。例如要查找一个键的话，**服务器会优先查找ht[0]，如果不存在，再查找ht[1]**，诸如此类。此外当执行**新增操作**时，新的键值对**一律保存到ht[1]**，不再对ht[0]进行任何操作，以保证ht[0]的键值对数量只减不增，直至变为空表。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202111292312687.webp)
+![](http://img.xxfxpt.top/202111292312687.webp)
 
 
 
@@ -345,7 +345,7 @@ rehash 的触发条件跟**负载因子（load factor）**有关系。
 
 我们看下整体的结构
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202111281850445.png)
+![](http://img.xxfxpt.top/202111281850445.png)
 
 
 
@@ -369,7 +369,7 @@ List是一个有序(按加入的时序排序)的数据结构，Redis采用quickl
 #### ziplist
 
 ziplist是由一系列特殊编码的连续内存块组成的顺序存储结构，类似于数组，ziplist在内存中是连续存储的，但是不同于数组，为了节省内存 ziplist的每个元素所占的内存大小可以不同（数组中叫元素，ziplist叫节点entry，下文都用“节点”），每个节点可以用来存储一个整数或者一个字符串。
-![](https://gitee.com/zysspace/pic/raw/master/images/202111282149414.png)
+![](http://img.xxfxpt.top/202111282149414.png)
 
 zlbytes: ziplist的长度（单位: 字节)，是一个32位无符号整数，记录整个压缩列表占用对内存字节数；
 zltail: 记录压缩列表「尾部」节点距离起始地址由多少字节，也就是列表尾的偏移量；，反向遍历ziplist或者pop尾部节点的时候有用。
@@ -402,13 +402,13 @@ zlend: 值为0xFF，用于标记ziplist的结尾
 
 现在假设一个压缩列表中有多个连续的、长度在 250～253 之间的节点，如下图：
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202111292258386.webp)
+![](http://img.xxfxpt.top/202111292258386.webp)
 
 因为这些节点长度值小于 254 字节，所以 prevlen 属性需要用 1 字节的空间来保存这个长度值。
 
 这时，如果将一个长度大于等于 254 字节的新节点加入到压缩列表的表头节点，即新节点将成为 e1 的前置节点，如下图：
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202111292259345.webp)
+![](http://img.xxfxpt.top/202111292259345.webp)
 
 
 
@@ -416,7 +416,7 @@ zlend: 值为0xFF，用于标记ziplist的结尾
 
 多米诺牌的效应就此开始。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202111292300101.webp)
+![](http://img.xxfxpt.top/202111292300101.webp)
 
 e1 原本的长度在 250～253 之间，因为刚才的扩展空间，此时 e1 的长度就大于等于 254 了，因此原本 e2 保存 e1 的 prevlen 属性也必须从 1 字节扩展至 5 字节大小。
 
@@ -445,7 +445,7 @@ quicklist 是一个双向链表，并且是一个 ziplist 的双向链表，也�
 - quicklist宏观上是一个双向链表，因此，它具有一个双向链表的有点，进行插入或删除操作时非常方便，虽然复杂度为O(n)，但是不需要内存的复制，提高了效率，而且访问两端元素复杂度为O(1)。
 - quicklist微观上是一片片entry节点，每一片entry节点内存连续且顺序存储，可以通过二分查找以 log2(n)log2(n) 的复杂度进行定位。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202111282203258.png)
+![](http://img.xxfxpt.top/202111282203258.png)
 
 可以通过设置每个ziplist的最大容量，quicklist的数据压缩范围，提升数据存取效率
 
@@ -458,7 +458,7 @@ list-compress-depth  1        //  0 代表所有节点，都不进行压缩，1�
 
 Hash 数据结构底层实现为一个字典( dict ),也是RedisBb用来存储K-V的数据结构,当数据量比较小，或者单个元素比较小时，底层用ziplist存储，数据大小和元素数量阈值可以通过如下参数设置。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202111282226814.png)
+![](http://img.xxfxpt.top/202111282226814.png)
 
 ```shell
 hash-max-ziplist-entries  512    //  ziplist 元素个数超过 512 ，将改为hashtable编码 
@@ -506,7 +506,7 @@ Redis的跳跃表由redis.h/zskiplistNode和redis.h/zskiplist两个结构定义�
 
 我们先来看一下一张完整的跳跃表的图
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202111302131764.png)
+![](http://img.xxfxpt.top/202111302131764.png)
 
 图片最左边的是zskiplist结构，该结构包含以下属性：
 
@@ -553,13 +553,13 @@ typedef struct zskiplistNode {
 每次创建一个新跳跃表节点的时候，程序根据幂次定律(power law，越大的数出现的概率越小)随机生成一个介于1和32之间的值作为level数组的大小，这个大小就是层的“高度”。
 
 下图分别展示了三个高度为1层、3层和5层的节点，因为C语言的数组索引总是从0开始的，所以节点的第一层是level[0]，而第二层是level[1]，依次类推。
-![](https://gitee.com/zysspace/pic/raw/master/images/202111302207836.png)
+![](http://img.xxfxpt.top/202111302207836.png)
 
 2、前进指针 forward
 
 每个层都有一个指向表尾方向的前进指针(level[i].forward属性)，用于从表头向表尾方向访问节点。下图用虚线表示出了程序从表头向表尾方向，遍历跳跃表中所有节点的路径：
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202111302212383.png)
+![](http://img.xxfxpt.top/202111302212383.png)
 
 - 迭代程序首先访问跳跃表的第一个节点(表头)，然后从第四层的前进指针移动到表中的第二个节点。 
 - 在第二个节点时，程序沿着第二层的前进指针移动到表中的第三个节点。 
@@ -577,14 +577,14 @@ typedef struct zskiplistNode {
 
 举个例子，下图用虚线标记了在跳跃表中查找分值为3.0、成员对象为o3的节点时，沿途经历的层：查找的过程只经过了一个层，并且层的跨度为3，所以目标节点在跳跃表中的排位为3。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202111302218869.png)
+![](http://img.xxfxpt.top/202111302218869.png)
 
 4、后退指针 backward
 
 节点的后退指针(backward属性)用于从表尾向表头方向访问节点：跟可以一次跳过多个节点的前进指针不同，因为每个节点只有一个后退指针，所以每次只能后退至前一个节点。
 
 下图用虚线展示了如何从表尾向表头遍历跳跃表中的所有节点：程序首先通过跳跃表的tail指针访问表尾节点，然后通过后退指针访问倒数第二个节点，之后再沿着后退指针访问倒数第三个节点，再之后遇到指向NULL的后退指针，于是访问结束。
-![](https://gitee.com/zysspace/pic/raw/master/images/202111302223884.png)
+![](http://img.xxfxpt.top/202111302223884.png)
 
 5、分值和成员
 
@@ -595,7 +595,7 @@ typedef struct zskiplistNode {
 在同一个跳跃表中，各个节点保存的成员对象必须是唯一的，但是多个节点保存的分值却可以是相同的：分至相同的节点将按照成员对象在字典中的大小来进行排序，成员对象较小的节点会排在前面(靠近表头的方向)，而成员对象较大的节点则会排在后面(靠近表尾的方向)。
 
 举个例子，在下图中所示的跳跃表中，三个跳跃表节点都保存了相同的分值10086.0，但保存成员对象o1的节点却排在保存成员对象o2和o3的节点的前面，而保存成员对象o2的节点又排在保存成员对象o3的节点之前，由此可见，o1、o2、o3三个成员对象在字典中的排序为o1<=o2<=o3。
-![](https://gitee.com/zysspace/pic/raw/master/images/202111302227501.png)
+![](http://img.xxfxpt.top/202111302227501.png)
 
 #### 跳跃表
 
@@ -611,11 +611,11 @@ typedef struct zskiplist {
 
 仅靠多个跳跃表节点就可以组成一个跳跃表，如下图所示：
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202111302230413.png)
+![](http://img.xxfxpt.top/202111302230413.png)
 
 但通过使用一个zskiplist结构来持有这些节点，程序可以更方便地对整个跳跃表进行处理，比如快速访问跳跃表的表头节点和表尾节点，或者快速地获取跳跃表节点的数量(也即是跳跃表的长度)等信息，如下图所示：
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202111302232046.png)
+![](http://img.xxfxpt.top/202111302232046.png)
 
 header和tail指针分别指向跳跃表的表头和表尾节点，通过这两个指针，程序定位表头节点和表尾节点的复杂度为0(1)。
 

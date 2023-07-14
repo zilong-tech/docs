@@ -1,15 +1,16 @@
 import { defineUserConfig } from "vuepress";
 import theme from "./theme.js";
-import { hopeTheme } from "vuepress-theme-hope";
+import {hopeTheme, sitemap} from "vuepress-theme-hope";
 import { seoPlugin } from "vuepress-plugin-seo2";
 import { autoCatalogPlugin } from "vuepress-plugin-auto-catalog";
 import { searchPlugin } from "@vuepress/plugin-search";
 import { readmorePlugin } from 'vuepress-plugin-readmore-popular-next';
+import { sitemapPlugin } from "vuepress-plugin-sitemap2";
 
 
 
 export default defineUserConfig({
-  base: "/docs/",
+  base: "/",
   locales: {
 
     "/": {
@@ -20,8 +21,14 @@ export default defineUserConfig({
   },
 
   theme: hopeTheme({
-    logo: "/logo.png",
 
+    logo: "/logo.png",
+    displayFooter:true,
+    footer: "GPL Licensed | Copyright © 2022~2023 子龙技术，All rights reserved " + "<br/>"+
+
+        "<div>\n" +
+        "\t<p> <span><img src=\"http://www.beian.gov.cn/img/ghs.png\"><a href=\"http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=21011102000332&amp\" style=\"display:inline-block;text-decoration:none;height:20px;line-height:20px;color: black;\" target=\"_blank\">辽公网安备 21011102000332号</a> &nbsp;&nbsp;&nbsp;&nbsp;</span><a href=\"http://beian.miit.gov.cn/\" style='color: black;' target=\"_blank\">辽ICP备2023001503号-1</a> </p>\n" +
+        "\t</div>",
     navbar: [
 
       {
@@ -199,7 +206,12 @@ export default defineUserConfig({
 
   plugins: [
     seoPlugin({
-      "hostname": "https://zilong-tech.github.io/docs/"
+      "hostname": "http://xxfxpt.top"
+    }),
+
+    sitemapPlugin({
+      // 配置选项
+      "hostname": "http://xxfxpt.top"
     }),
 
     autoCatalogPlugin({
@@ -219,7 +231,7 @@ export default defineUserConfig({
       // 已申请的微信公众号回复关键词
       keyword: '验证码',
       // 已申请的微信公众号二维码图片
-      qrcode: 'http://rpumme6gd.hb-bkt.clouddn.com/202302152116611.jpg',
+      qrcode: 'http://img.xxfxpt.top/202302152116611.jpg',
       // 文章内容的 JS 选择器，若使用的不是官方默认主题，则需要根据第三方的主题来设置
       selector: 'div.theme-hope-content',
       // 自定义的 JS 资源链接，可用于 CDN 加速

@@ -383,7 +383,7 @@ spring:
         dashboard: localhost:8080
 ```
 
-![](http://rpumme6gd.hb-bkt.clouddn.com/202302152041465.png)
+![](http://img.xxfxpt.top/202302152041465.png)
 
 ##### 在sentinel控制台中设置流控规则 
 
@@ -403,7 +403,7 @@ spring:
 
 点击流控按钮会显示 **新增流控规则** 的弹出框
 
-![](http://rpumme6gd.hb-bkt.clouddn.com/202302152041476.png)
+![](http://img.xxfxpt.top/202302152041476.png)
 
 配置好之后点击新增按钮。上述配置表示`http://127.0.0.1:8800/world`接口的QPS为1，每秒访问1次。如果每秒访问的次数超过1次，则会被Sentinel限流。
 
@@ -413,7 +413,7 @@ spring:
 
 Sentinel控制台与微服务端之间，实现了一套服务发现机制，集成了Sentinel的微服务都会将元数据传递给Sentinel控制台
 
-![](http://rpumme6gd.hb-bkt.clouddn.com/202302152041527.png)
+![](http://img.xxfxpt.top/202302152041527.png)
 
 ### Feign整合Sentinel实现容错
 

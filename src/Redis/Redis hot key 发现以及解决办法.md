@@ -41,7 +41,7 @@ category:
 
 如果所有的 `Redis` 请求都经过 `Proxy`（代理）的话，可以考虑改动 `Proxy` 代码进行收集，思路与客户端基本类似。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202281726557.png)
+![](http://img.xxfxpt.top/202202281726557.png)
 
 **hotkeys 参数**
 
@@ -76,7 +76,7 @@ category:
 
 那么如何将对某个热 `Key` 的请求打散到不同实例上呢？我们就可以通过热 `Key` 备份的方式，基本的思路就是，我们可以给热 `Key` 加上前缀或者后缀，把一个热 `Key` 的数量变成 `Redis` 实例个数 `N` 的倍数 `M`，从而由访问一个 `Redis` `Key` 变成访问 `N * M` 个 `Redis` `Key`。 `N * M` 个 `Redis` `Key` 经过分片分布到不同的实例上，将访问量均摊到所有实例。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202281729616.png)
+![](http://img.xxfxpt.top/202202281729616.png)
 
 在这段代码中，通过一个大于等于 `1` 小于 `M` 的随机数，得到一个 `bakHotKey`，程序会优先访问 `bakHotKey`，在得不到数据的情况下，再访问原来的 `hotkey`，并将 `hotkey` 的内容写回 `bakHotKey`。值得注意的是，`bakHotKey` 的过期时间是 `hotkey` 的过期时间加上一个较小的随机正整数，这是通过坡度过期的方式，保证在 `hotkey` 过期时，所有 `bakHotKey` 不会同时过期而造成缓存雪崩。
 

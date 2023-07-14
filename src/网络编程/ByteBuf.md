@@ -171,7 +171,7 @@ UnsupportedOperationException 异常
 
 缓冲区上调用 discardReadBytes()方法后，可丢弃字节分段中的空间已经变为可写的了。 频繁地调用 discardReadBytes()方法以确保可写分段的最大化，但是请注意，这将极有可能会导致内存复制，因为可读字节必须被移动到缓冲区的开始位置。建议只在有真正需要的时候 才这样做，例如，当内存非常宝贵的时候。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205212147253.png)
+![](http://img.xxfxpt.top/202205212147253.png)
 
 **可读字节**
 
@@ -181,7 +181,7 @@ ByteBuf 的可读字节分段存储了实际数据。新分配的、包装的或
 
 可写字节分段是指一个拥有未定义内容的、写入就绪的内存区域。新分配的缓冲区的 writerIndex 的默认值为 0。任何名称以 write 开头的操作都将从当前的 writerIndex 处开始写数据，并将它增加已经写入的字节数。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205212150750.png)
+![](http://img.xxfxpt.top/202205212150750.png)
 
 **查找操作**
 

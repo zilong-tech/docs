@@ -81,7 +81,7 @@ threadB修改flag:false
 
 释放时间片，上下文切换，从主内存中重新加载 flag
 
-![image-20220215232841981](https://gitee.com/zysspace/pic/raw/master/images/202202152328690.png)
+![image-20220215232841981](http://img.xxfxpt.top/202202152328690.png)
 
 2、 Thread.sleep(1);
 
@@ -141,7 +141,7 @@ JMM规范了Java虚拟机与计算机内存是如何协同工作的：规定了�
 
 每个线程的工作内存都是独立的，线程操作数据只能在工作内存中进行，然后刷回到主存。这是 Java 内存模型定义的线程基本工作方式。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202132246094.jpg)
+![](http://img.xxfxpt.top/202202132246094.jpg)
 
 从抽象的角度来看，JMM定义了线程和主内存之间的抽象关系：
 
@@ -150,11 +150,11 @@ JMM规范了Java虚拟机与计算机内存是如何协同工作的：规定了�
 - 从更低的层次来说，主内存就是硬件的内存，而为了获取更好的运行速度，虚拟机及硬件系统可能会让工作内存优先存储于寄存器和高速缓存中。
 - Java内存模型中的线程的工作内存（working memory）是cpu的寄存器和高速缓存的抽象描述。而JVM的静态内存储模型（JVM内存模型）只是一种对内存的物理划分而已，它只局限在内存，而且只局限在JVM的内存。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202192323863.jpg)
+![](http://img.xxfxpt.top/202202192323863.jpg)
 
 
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202192324420.jpg)
+![](http://img.xxfxpt.top/202202192324420.jpg)
 
 在线程执行时，首先会从主存中read变量值，再load到工作内存中的副本中，然后再传给处理器执行，执行完毕后再给工作内存中的副本赋值，随后工作内存再把值传回给主存，主存中的值才更新。
 
@@ -179,7 +179,7 @@ i = i + 1;
 
 从 JMM 角度理解下上面的案例
 
-![image](https://gitee.com/zysspace/pic/raw/master/images/202202152302466.png)
+![image](http://img.xxfxpt.top/202202152302466.png)
 
 - 一个本地变量可能是原始类型，在这种情况下，它总是“呆在”线程栈上。
 - 一个本地变量也可能是指向一个对象的一个引用。在这种情况下，引用（这个本地变量）存放在线程栈上，但是对象本身存放在堆上。
@@ -223,7 +223,7 @@ Java内存模型还规定了在执行上述八种基本操作时，必须满足�
 
 2）线程B到主内存中去读取线程A之前已更新过的共享变量。
 
-![image-20220219225043714](https://gitee.com/zysspace/pic/raw/master/images/202202192250500.png)
+![image-20220219225043714](http://img.xxfxpt.top/202202192250500.png)
 
 **JMM与硬件内存架构的关系**
 
@@ -231,7 +231,7 @@ Java内存模型与硬件内存架构之间存在差异。硬件内存架构没�
 
 ![https://note.youdao.com/yws/public/resource/160fb2698c17a77af01f05e879173aab/xmlnote/E51E3765546C4B10AF4BBC721D22C3E7/1551](https://note.youdao.com/yws/public/resource/160fb2698c17a77af01f05e879173aab/xmlnote/E51E3765546C4B10AF4BBC721D22C3E7/1551)
 
-![image-20220219214343944](https://gitee.com/zysspace/pic/raw/master/images/202202192143025.png)
+![image-20220219214343944](http://img.xxfxpt.top/202202192143025.png)
 
 ### **硬件内存架构**
 
@@ -251,7 +251,7 @@ Java内存模型与硬件内存架构之间存在差异。硬件内存架构没�
 
 - **缓存一致性问题**：在多处理器系统中，每个处理器都有自己的高速缓存，而它们又共享同一主内存（MainMemory）。基于高速缓存的存储交互很好地解决了处理器与内存的速度矛盾，但是也引入了新的问题：缓存一致性（CacheCoherence）。当多个处理器的运算任务都涉及同一块主内存区域时，将可能导致各自的缓存数据不一致的情况，如果真的发生这种情况，那同步回到主内存时以谁的缓存数据为准呢？为了解决一致性的问题，需要各个处理器访问缓存时都遵循一些协议，在读写时要根据协议来进行操作，这类协议有MSI、MESI（IllinoisProtocol）、MOSI、Synapse、Firefly及DragonProtocol，等等：
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202192325356.jpg)
+![](http://img.xxfxpt.top/202202192325356.jpg)
 
 - **指令重排序问题**：为了使得处理器内部的运算单元能尽量被充分利用，处理器可能会对输入代码进行乱序执行（Out-Of-Order Execution）优化，处理器会在计算之后将乱序执行的结果重组，保证该结果与顺序执行的结果是一致的，但并不保证程序中各个语句计算的先后顺序与输入代码中的顺序一致。因此，如果存在一个计算任务依赖另一个计算任务的中间结果，那么其顺序性并不能靠代码的先后顺序来保证。与处理器的乱序执行优化类似，Java虚拟机的即时编译器中也有类似的指令重排序（Instruction Reorder）优化
 
@@ -530,11 +530,11 @@ Java语言提供了volatile和synchronized两个关键字来保证线程之间�
 
 3）内存系统的重排序。由于处理器使用缓存和读/写缓冲区，这使得加载和存储操作看上去可能是在乱序执行。
 
-![image-20220219230303958](https://gitee.com/zysspace/pic/raw/master/images/202202192303397.png)
+![image-20220219230303958](http://img.xxfxpt.top/202202192303397.png)
 
 每个处理器上的写缓冲区，仅仅对它所在的处理器可见。这会导致处理器执行内存操作的顺序可能会与内存实际的操作执行顺序不一致。由于现代的处理器都会使用写缓冲区，因此现代的处理器都会允许对写-读操作进行重排序：
 
-![image-20220219230337613](https://gitee.com/zysspace/pic/raw/master/images/202202192303301.png)
+![image-20220219230337613](http://img.xxfxpt.top/202202192303301.png)
 
 N表示处理器不允许两个操作重排序，Y表示允许重排序。
 
@@ -542,11 +542,11 @@ N表示处理器不允许两个操作重排序，Y表示允许重排序。
 
 编译器和处理器在重排序时，会遵守数据依赖性，编译器和处理器不会改变存在数据依赖关系的两个操作的执行顺序。（这里所说的数据依赖性仅针对单个处理器中执行的指令序列和单个线程中执行的操作，不同处理器之间和不同线程之间的数据依赖性不被编译器和处理器考虑）
 
-![image-20220219230502124](https://gitee.com/zysspace/pic/raw/master/images/202202192305426.png)
+![image-20220219230502124](http://img.xxfxpt.top/202202192305426.png)
 
 **指令重排序对内存可见性的影响：**
 
-![image-20220219230528675](https://gitee.com/zysspace/pic/raw/master/images/202202192305088.png)
+![image-20220219230528675](http://img.xxfxpt.top/202202192305088.png)
 
 当1和2之间没有数据依赖关系时，1和2之间就可能被重排序（3和4类似）。这样的结果就是：读线程B执行4时，不一定能看到写线程A在执行1时对共享变量的修改。
 
@@ -764,7 +764,7 @@ public void multiply() {
 
 假如有两个线程执行上述代码段，线程1先执行write，随后线程2再执行multiply，最后ret的值一定是4吗？结果不一定：
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202132249458.jpg)
+![](http://img.xxfxpt.top/202202132249458.jpg)
 
 如图所示，write方法里的1和2做了重排序，线程1先对flag赋值为true，随后执行到线程2，ret直接计算出结果，再到线程1，这时候a才赋值为2,很明显迟了一步。
 
@@ -812,13 +812,13 @@ Java语言规范规定JVM线程内部维持顺序化语义。即只要程序的�
 
 在编译器与CPU处理器中都能执行指令重排优化操作
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202211553764.png)
+![](http://img.xxfxpt.top/202202211553764.png)
 
 
 
 **volatile重排序规则**
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202211552053.png)
+![](http://img.xxfxpt.top/202202211552053.png)
 
 volatile禁止重排序场景：
 
@@ -835,7 +835,7 @@ volatile禁止重排序场景：
 3. 在每个volatile读操作的后面插入一个LoadLoad屏障
 4. 在每个volatile读操作的后面插入一个LoadStore屏障
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202211551300.png)
+![](http://img.xxfxpt.top/202202211551300.png)
 
  
 
@@ -843,7 +843,7 @@ volatile禁止重排序场景：
 
 x86处理器不会对读-读、读-写和写-写操作做重排序, 会省略掉这3种操作类型对应的内存屏障。仅会对写-读操作做重排序，所以volatile写-读操作只需要在volatile写后插入StoreLoad屏障
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202202211554713.png)
+![](http://img.xxfxpt.top/202202211554713.png)
 
  
 

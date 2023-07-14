@@ -59,7 +59,7 @@ InnoDB在执行查询语句SELECT时(非串行隔离级别)，不会加锁。但
 
 假设account表里数据如下：
 
-![image-20211212221026948](https://gitee.com/zysspace/pic/raw/master/images/202112122210376.png)
+![image-20211212221026948](http://img.xxfxpt.top/202112122210376.png)
 
 那么间隙就有 id 为 (3,10)，(10,20)，(20,正无穷) 这三个区间，
 
@@ -69,19 +69,19 @@ InnoDB在执行查询语句SELECT时(非串行隔离级别)，不会加锁。但
 
 事务A：
 
-![image-20211212221456600](https://gitee.com/zysspace/pic/raw/master/images/202112122214934.png)
+![image-20211212221456600](http://img.xxfxpt.top/202112122214934.png)
 
 事务B：
 
-![image-20211212221542369](https://gitee.com/zysspace/pic/raw/master/images/202112122215601.png)
+![image-20211212221542369](http://img.xxfxpt.top/202112122215601.png)
 
 事务A：
 
-![image-20211212221911685](https://gitee.com/zysspace/pic/raw/master/images/202112122219782.png)
+![image-20211212221911685](http://img.xxfxpt.top/202112122219782.png)
 
 事务B：
 
-![image-20211212222001149](https://gitee.com/zysspace/pic/raw/master/images/202112122220278.png)
+![image-20211212222001149](http://img.xxfxpt.top/202112122220278.png)
 
 
 

@@ -401,11 +401,11 @@ http://localhost:8080/oauth/authorize?response_type=code&client_id=client&redire
 
 登录：
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205041653244.png)
+![](http://img.xxfxpt.top/202205041653244.png)
 
 授权：
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205041512818.png)
+![](http://img.xxfxpt.top/202205041512818.png)
 
 选择 authorize ，获取授权码，浏览器返回：https://www.baidu.com/?code=PVpEEw
 
@@ -415,7 +415,7 @@ https://a.com/callback?code=AUTHORIZATION_CODE    #code参数就是授权码
 
 如果使用数据库模式：
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205041656285.png)
+![](http://img.xxfxpt.top/202205041656285.png)
 
 3、A 网站拿到授权码以后，就可以在后端，向 B 网站请求令牌。 用户不可见，服务端行为
 
@@ -442,11 +442,11 @@ redirect_uri=CALLBACK_URL		 # 令牌颁发后的回调网址
  }
 ```
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205041525228.png)
+![](http://img.xxfxpt.top/202205041525228.png)
 
 此时redis中会存储token
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205041708764.png)
+![](http://img.xxfxpt.top/202205041708764.png)
 
 
 
@@ -632,7 +632,7 @@ https://oauth.b.com/oauth/token?
 
 ```
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205041738615.png)
+![](http://img.xxfxpt.top/202205041738615.png)
 
 ##### **客户端模式** 
 
@@ -688,7 +688,7 @@ clients.inMemory()
 
 获取令牌：
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205041752612.png)
+![](http://img.xxfxpt.top/202205041752612.png)
 
 ##### **简化(隐式)模式**
 
@@ -760,7 +760,7 @@ http://localhost:8080/oauth/authorize?client_id=client&response_type=token&scope
 
 登录之后进入授权页面，确定授权后浏览器会重定向到指定路径，并以Hash的形式存放在重定向uri的fargment中：  
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205041719513.png)
+![](http://img.xxfxpt.top/202205041719513.png)
 
 如果想要支持数据库模式，配置同授权码模式一样，只需要在oauth_client_details表的authorized_grant_types配置上implicit即可。
 
@@ -776,7 +776,7 @@ A 网站拿到令牌以后，就可以向 B 网站的 API 请求数据了。
 
 此时，每个发到 API 的请求，都必须带有令牌。具体做法是在请求的头信息，加上一个Authorization字段，令牌就放在这个字段里面。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205041530217.png)
+![](http://img.xxfxpt.top/202205041530217.png)
 
 也可以添加请求参数access_token请求数据
 
@@ -784,7 +784,7 @@ A 网站拿到令牌以后，就可以向 B 网站的 API 请求数据了。
 localhost/user/getCurrentUser?access_token=xxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205041527367.png)
+![](http://img.xxfxpt.top/202205041527367.png)
 
 #### **更新令牌**
 
@@ -802,7 +802,7 @@ https://b.com/oauth/token?
 >   refresh_token=REFRESH_TOKEN    # 用于更新令牌的令牌
 ```
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205041814057.png)
+![](http://img.xxfxpt.top/202205041814057.png)
 
 #### **基于redis存储Token**
 

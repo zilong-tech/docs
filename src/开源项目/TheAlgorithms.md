@@ -16,31 +16,31 @@ category:
 
 今天大叔给大家推荐一个学习算法的开源网站，在这个网站上面，收录了包括 Python、Java、C++、JavaScript、Go 等多种主流编程语言的算法代码实现。
 
-![image-20220109195655004](https://gitee.com/zysspace/pic/raw/master/images/202201092206500.png)
+![image-20220109195655004](http://img.xxfxpt.top/202201092206500.png)
 
 ### 简介
 
 网站提供了排序、搜索、动态规划、数据结构等多种分类，便于开发者根据自身情况，筛选个人感兴趣的领域深入学习。
 
-![image-20220109221055161](https://gitee.com/zysspace/pic/raw/master/images/202201092210081.png)
+![image-20220109221055161](http://img.xxfxpt.top/202201092210081.png)
 
 同样，当你开始学习单个算法时，页面上会给出问题描述、实现方法、时间与空间复杂度、代码示例、GitHub 链接、以及视频动画解说等内容。
 
-![image-20220109212835696](https://gitee.com/zysspace/pic/raw/master/images/202201092128501.png)
+![image-20220109212835696](http://img.xxfxpt.top/202201092128501.png)
 
 在编辑区的下方可以自由切换语言。
 
-![image-20220109212732975](https://gitee.com/zysspace/pic/raw/master/images/202201092127342.png)
+![image-20220109212732975](http://img.xxfxpt.top/202201092127342.png)
 
 你可以在上面随心所欲的编写代码，网站提供的代码自动补全、语法高亮、可交互式编程体验做的还是蛮不错的。运行之后，便可在右侧看到实时输出效果。对于整个学习过程可以说没有任何阻碍。
 
 网站还提供了暗黑与明亮两种主题供用户选择，满足同开发人员的喜好。
 
-![image-20220109214607224](https://gitee.com/zysspace/pic/raw/master/images/202201092146276.png)
+![image-20220109214607224](http://img.xxfxpt.top/202201092146276.png)
 
 我们再来看看，目前 Java 实现的算法。
 
-![image-20220109215023318](https://gitee.com/zysspace/pic/raw/master/images/202201092150684.png)
+![image-20220109215023318](http://img.xxfxpt.top/202201092150684.png)
 
 ### 小结
 

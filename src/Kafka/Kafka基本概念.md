@@ -112,7 +112,7 @@ Kafka只在partition的范围内保证消息消费的局部顺序性，不能在
 
 消费者和分区之间的这种映射关系叫做消费者对分区的所有权关系，很明显，一个分区只有一个消费者，而一个消费者可以有多个分区。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202206042156114.png)
+![](http://img.xxfxpt.top/202206042156114.png)
 
 **Broker** **和集群** 
 
@@ -124,7 +124,7 @@ Kafka只在partition的范围内保证消息消费的局部顺序性，不能在
 
 集群中 Kafka 内部一般使用管道技术进行高效的复制。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202206042201348.png)
+![](http://img.xxfxpt.top/202206042201348.png)
 
 分区复制带来的好处是，提供了消息冗余。一旦首领 broker 失效，其他 broker 可以接管领导权。当然相关的消费者和生产者都要重新连接到新的首领上。 
 

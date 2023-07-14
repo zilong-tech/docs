@@ -47,7 +47,7 @@ JWT令牌较长，占存储空间比较大。
 xxxxx.yyyyy.zzzzz
 ```
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205042117032.png)
+![](http://img.xxfxpt.top/202205042117032.png)
 
 接下来分别介绍这三个部分
 

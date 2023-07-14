@@ -14,6 +14,6 @@ SpringCloud集成 报错 An attempt was made to call a method that does not exis
 
 https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205022046645.png)
+![](http://img.xxfxpt.top/202205022046645.png)
 
 例如我选用的spring cloud 版本是Greenwich.SR3，原来spring boot 版本是2.3.2.RELEASE，调整成2.1.7.RELEASE

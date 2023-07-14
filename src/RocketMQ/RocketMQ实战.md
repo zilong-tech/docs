@@ -50,7 +50,7 @@ category:
 
 这种可靠性同步地发送方式使用的比较广泛，比如：重要的消息通知。
 
-![](http://rpumme6gd.hb-bkt.clouddn.com/202302151704600.png)
+![](http://img.xxfxpt.top/202302151704600.png)
 
 
 
@@ -107,7 +107,7 @@ category:
 
 异步消息通常用在对响应时间敏感的业务场景，即发送端不能容忍长时间地等待 Broker 的响应。
 
-![](http://rpumme6gd.hb-bkt.clouddn.com/202302151655497.png)
+![](http://img.xxfxpt.top/202302151655497.png)
 
 ```java
 //简单样例：异步发送消息
@@ -173,7 +173,7 @@ public class AsyncProducer {
 
 这种方式主要用在不特别关心发送结果的场景，例如日志发送.
 
-![](http://rpumme6gd.hb-bkt.clouddn.com/202302151707027.png)
+![](http://img.xxfxpt.top/202302151707027.png)
 
 ```java
 public class OnewayProducer {
@@ -203,7 +203,7 @@ public class OnewayProducer {
 
 **消息发送的选择**
 
-![](http://rpumme6gd.hb-bkt.clouddn.com/202302151707527.png)
+![](http://img.xxfxpt.top/202302151707527.png)
 
 ##### 消费消息
 
@@ -363,7 +363,7 @@ public class PushConsumer {
 
 ###### **集群消费**
 
-![](http://rpumme6gd.hb-bkt.clouddn.com/202302151656699.png)
+![](http://img.xxfxpt.top/202302151656699.png)
 
 一个 Consumer Group 中的各个 Consumer 实例分摊去消费消息，即一条消息只会投递到一个 Consumer Group 下面的一个实例。
 
@@ -416,7 +416,7 @@ public class BalanceComuser {
 
 ###### **广播消费**
 
-![](http://rpumme6gd.hb-bkt.clouddn.com/202302151656180.png)
+![](http://img.xxfxpt.top/202302151656180.png)
 
 消息将对一个 Consumer Group 下的各个 Consumer 实例都投递一遍。即即使这些 Consumer 属于同一个 Consumer Group， 消息也会被 Consumer Group 中的每个 Consumer 都消费一次。 
 
@@ -507,11 +507,11 @@ public class BroadcastComuser {
 
 **全局顺序消息**
 
-![](http://rpumme6gd.hb-bkt.clouddn.com/202302151656691.png)
+![](http://img.xxfxpt.top/202302151656691.png)
 
 局部顺序消息
 
-![](http://rpumme6gd.hb-bkt.clouddn.com/202302151656172.png)
+![](http://img.xxfxpt.top/202302151656172.png)
 
 我们所说的顺序消息指的是局部消息顺序，比如说保证一个订单下的消息顺序是有序的。
 
@@ -726,7 +726,7 @@ sh mqbroker -n localhost:9876 -c ../conf/broker.conf
 
 可以使用 RocketMQ 的分布式事务保证在下单失败后系统数据的完整性。
 
-![](http://rpumme6gd.hb-bkt.clouddn.com/202302151657350.png)
+![](http://img.xxfxpt.top/202302151657350.png)
 
 其中分为两个流程：正常事务消息的发送及提交、事务消息的补偿流程。 
 

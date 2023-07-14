@@ -59,7 +59,7 @@ Netty的线程模型是基于主从Reactor多线程做了改进。
 **2、传统阻塞IO的线程模型**
  采用阻塞IO获取输入的数据，每个连接都需要独立的线程来处理逻辑。存在的问题就是，当并发数很大时，就需要创建很多的线程，占用大量的资源。连接创建后，如果当前线程没有数据可读，该线程将会阻塞在读数据的方法上，造成线程资源浪费。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205122138037.png)
+![](http://img.xxfxpt.top/202205122138037.png)
 
 **3、Reactor模式(分发者模式/反应器模式/通知者模式)**
  针对传统阻塞IO的模型，做了以下两点改进：
@@ -74,7 +74,7 @@ Reactor模式的核心组成：
 
 **4、单线程Reactor**
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205122136323.png)
+![](http://img.xxfxpt.top/202205122136323.png)
 
 ![](https://upload-images.jianshu.io/upload_images/11531502-3c33570d200d3984.png?imageMogr2/auto-orient/strip|imageView2/2/w/951/format/webp)
 
@@ -82,7 +82,7 @@ Reactor模式的核心组成：
 
 **5、Reactor多线程**
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205122140389.png)
+![](http://img.xxfxpt.top/202205122140389.png)
 
 ![](https://upload-images.jianshu.io/upload_images/11531502-26bbee6a1dcc9707.png?imageMogr2/auto-orient/strip|imageView2/2/w/1164/format/webp)
 
@@ -97,7 +97,7 @@ Reactor模式的核心组成：
 
 **6、主从Reactor多线程**
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205122144933.png)
+![](http://img.xxfxpt.top/202205122144933.png)
 
 ![](https:////upload-images.jianshu.io/upload_images/11531502-1eabcc75516598e4.png?imageMogr2/auto-orient/strip|imageView2/2/w/939/format/webp)
 
@@ -359,7 +359,7 @@ pipeline.addLast(new MyServerHandler());
 
 Channel和EventLoop关系图
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205212236802.png)
+![](http://img.xxfxpt.top/202205212236802.png)
 
 #### **Selector**
 

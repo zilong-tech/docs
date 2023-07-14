@@ -72,7 +72,7 @@ MongoDB 是一个介于关系数据库和非关系数据库之间的产品，是
 
 下载 .msi 文件，下载后双击该文件，按操作提示安装即可。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202204262156824.png)
+![](http://img.xxfxpt.top/202204262156824.png)
 
 安装过程中，你可以通过点击 "Custom(自定义)" 按钮来设置你的安装目录。
 
@@ -203,5 +203,5 @@ db.集合.insert()   // 添加单个文档
 
 注意：mongodb的主键名称是_id,可以在插入数据时指定。
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202205012203812.png)
+![](http://img.xxfxpt.top/202205012203812.png)
 

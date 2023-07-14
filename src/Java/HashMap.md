@@ -9,7 +9,7 @@ category:
 ---
 HashMap实现了Map接口，并继承 AbstractMap 抽象类，其中 Map 接口定义了键值映射规则。和 AbstractCollection抽象类在 Collection 族的作用类似， AbstractMap 抽象类提供了 Map 接口的骨干实现，以最大限度地减少实现Map接口所需的工作。
 
-<img src="https://gitee.com/zysspace/pic/raw/master/images/202112041656661.PNG" style="zoom:50%;" />
+<img src="http://img.xxfxpt.top/202112041656661.PNG" style="zoom:50%;" />
 
 
 
@@ -74,7 +74,7 @@ Node是一个内部类，这里的key为键，value为值，next指向下一个�
 
 **当hash冲突时候，以链表形式存在，如果链表长度大于8并且数组长度大于64时，转换成红黑树，长度小于6时再转换成链表。**
 
-<img src="https://gitee.com/zysspace/pic/raw/master/images/202112041719919.PNG" style="zoom: 67%;" />
+<img src="http://img.xxfxpt.top/202112041719919.PNG" style="zoom: 67%;" />
 
 ### 存储元素过程
 
@@ -198,11 +198,11 @@ java8之前是头插法，就是说新来的值会取代原有的值，原有的
 
 B的下一个指针指向了A
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202112042233121.jpg)
+![](http://img.xxfxpt.top/202112042233121.jpg)
 
 一旦几个线程都调整完成，就可能出现环形链表
 
-![](https://gitee.com/zysspace/pic/raw/master/images/202112042222361.jpg)
+![](http://img.xxfxpt.top/202112042222361.jpg)
 
 如果这个时候去取值，出现了——Infinite Loop。
 
@@ -210,7 +210,7 @@ B的下一个指针指向了A
 
 就是说原本是A->B，在扩容后那个链表还是A->B
 
-<img src="https://gitee.com/zysspace/pic/raw/master/images/202112042220842.PNG" style="zoom:67%;" />
+<img src="http://img.xxfxpt.top/202112042220842.PNG" style="zoom:67%;" />
 
 jdk 1.7 在多线程操作HashMap时可能引起死循环，原因是扩容转移后前后链表顺序倒置，在转移过程中修改了原来链表中节点的引用关系。Java 8在同样的前提下并不会引起死循环，原因是扩容转移后前后链表顺序不变，保持之前节点的引用关系。
 
