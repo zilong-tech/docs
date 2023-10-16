@@ -1,3 +1,13 @@
+---
+title: Java 8 日期和时间 - 如何获取当前时间和时间戳？
+
+index: true
+icon: discover
+category:
+- Java 基础
+
+---
+
 在过去，我们使用Date和CalendarAPI 来表示和操作日期。
 
 java.util.Date– 日期和时间，使用默认时区打印。

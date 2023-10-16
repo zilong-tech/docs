@@ -11,196 +11,50 @@ import { sitemapPlugin } from "vuepress-plugin-sitemap2";
 
 export default defineUserConfig({
   base: "/",
-  locales: {
+  description:
+    "「Java学习指北 + Java面试指南」一份涵盖大部分 Java 程序员所需要掌握的核心知识。准备 Java 面试，复习 Java 知识点，首选 JavaGuide！  ",
+  lang: "zh-CN",
 
-    "/": {
-      lang: "zh-CN",
-      title: "子龙技术",
-      description: "程序员子龙",
-    },
-  },
-
-  theme: hopeTheme({
-
-    logo: "/logo.png",
-    displayFooter:true,
-    footer: "GPL Licensed | Copyright © 2022~2023 子龙技术，All rights reserved " + "<br/>"+
-
-        "<div>\n" +
-        "\t<p> <span><img src=\"http://www.beian.gov.cn/img/ghs.png\"><a href=\"http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=21011102000332&amp\" style=\"display:inline-block;text-decoration:none;height:20px;line-height:20px;color: black;\" target=\"_blank\">辽公网安备 21011102000332号</a> &nbsp;&nbsp;&nbsp;&nbsp;</span><a href=\"http://beian.miit.gov.cn/\" style='color: black;' target=\"_blank\">辽ICP备2023001503号-1</a> </p>\n" +
-        "\t</div>",
-    navbar: [
-
+  head: [
+    // meta
+    ["meta", { name: "robots", content: "all" }],
+    ["meta", { name: "author", content: "程序员子龙" }],
+    [
+      "meta",
       {
-        text:"并发编程",
-        icon:"info",
-        link:"/并发编程/"
-      },
-      {
-        text:"网络编程",
-        icon:"info",
-        link:"/网络编程/"
-      },
-      {
-        text:"分布式",
-        icon:"info",
-        children: [
-          {
-            text: "分布式基础",
-            icon: "creative",
-            link: "/分布式基础/",
-
-          },
-          {
-            text: "zookeeper",
-            icon: "creative",
-            link: "/zookeeper/",
-
-          },
-          {
-            text: "分布式事务",
-            icon: "creative",
-            link: "/分布式事务/"
-          }
-        ]
-
-      },
-      {
-        text: "微服务",
-        icon: "info",
-        children: [
-            {
-              text: "SpringBoot",
-              icon: "creative",
-              link: "/SpringBoot/",
-
-            },
-            {
-              text: "SpringCloudAlibaba",
-              icon: "creative",
-              link: "/SpringCloudAlibaba/"
-            }
-        ]
-      },
-
-      {
-        text:"设计模式",
-        icon:"info",
-        link:"/设计模式/"
-      },
-
-      {
-        text:"Java",
-        icon:"info",
-        link:"/Java/"
-      },
-      {
-        text:"JVM",
-        icon:"info",
-        link:"/JVM/"
-      },
-      {
-        text:"数据库",
-        icon:"info",
-        children:[
-          {
-            text:"Redis",
-            icon:"info",
-            link:"/Redis/"
-          },
-          {
-            text:"MySQL",
-            icon:"info",
-            link:"/MySQL/"
-          },
-          {
-            text:"Mongodb",
-            icon:"info",
-            link:"/Mongodb/"
-          },
-        ]
-      },
-
-      {
-        text:"Mybatis",
-        icon:"info",
-        link:"/Mybatis/"
-      },
-
-      {
-        text:"Spring",
-        icon:"info",
-        link:"/Spring/"
-      },
-      {
-        text: "消息中间件",
-        icon: "info",
-        children: [
-          {
-            text: "Kafka",
-            icon: "creative",
-            link: "/Kafka/",
-
-          },
-          {
-            text: "RocketMQ",
-            icon: "creative",
-            link: "/RocketMQ/"
-          }
-        ]
-      },
-      {
-        text:"高并发",
-        icon:"info",
-        link:"/高并发/"
-      },
-      {
-        text:"面试",
-        icon:"info",
-        link:"/面试/"
-      },
-      {
-        text:"工具",
-        icon:"info",
-        link:"/工具/"
-      },
-      {
-        text:"开源项目",
-        icon:"info",
-        link:"/开源项目/"
+        "http-equiv": "Cache-Control",
+        content: "no-cache, no-store, must-revalidate",
       },
     ],
+    ["meta", { "http-equiv": "Pragma", content: "no-cache" }],
+    ["meta", { "http-equiv": "Expires", content: "0" }],
+    [
+      "meta",
+      {
+        name: "keywords",
+        content:
+          "Java基础, 多线程, JVM, 虚拟机, 数据库, MySQL, Spring, Redis, MyBatis, 系统设计, 分布式, RPC, 高可用, 高并发",
+      },
+    ],
+    ["meta", { name: "apple-mobile-web-app-capable", content: "yes" }],
+    // 添加百度统计
+    [
+      "script",
+      {},
+      `var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?5dd2e8c97962d57b7b8fea1737c01743";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();`,
+    ],
+  ],
+
+  theme,
 
 
-    sidebar: {
-      "/并发编程/": "structure",
-      "/SpringBoot/": "structure",
-      "/SpringCloudAlibaba/" : "structure",
-      "/分布式事务/":"structure",
-      "/设计模式/":"structure",
-      "/MySQL/":"structure",
-      "/Java/":"structure",
-      "/Redis/":"structure",
-      "/Spring/":"structure",
-      "/Kafka/":"structure",
-      "/RocketMQ/":"structure",
-      "/网络编程/":"structure",
-      "/开源项目/":"structure",
-      "/分布式基础/":"structure",
-      "/高并发/":"structure",
-      "/面试/":"structure",
-      "/Mybatis/":"structure",
-      "/工具/":"structure",
-    },
-
-    themeColor: {
-      blue: "#2196f3",
-      red: "#f26d6d",
-      green: "#3eaf7c",
-      orange: "#fb9b5f",
-    },
-
-  }),
+  pagePatterns: ["**/*.md", "!**/*.snippet.md", "!.vuepress", "!node_modules"],
 
   shouldPrefetch: false,
 
@@ -219,7 +73,18 @@ export default defineUserConfig({
     }),
 
     searchPlugin({
-      // 你的选项
+      // https://v2.vuepress.vuejs.org/zh/reference/plugin/search.html
+      // 排除首页
+      isSearchable: (page) => page.path !== "/",
+      maxSuggestions: 10,
+      hotKeys: ["s", "/"],
+      // 用于在页面的搜索索引中添加额外字段
+      getExtraFields: () => [],
+      locales: {
+        "/": {
+          placeholder: "搜索",
+        },
+      },
     }),
 
 

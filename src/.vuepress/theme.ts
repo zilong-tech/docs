@@ -1,194 +1,91 @@
+import { getDirname, path } from "@vuepress/utils";
 import { hopeTheme } from "vuepress-theme-hope";
-import { enNavbar, zhNavbar } from "./navbar/index.js";
-import { enSidebar, zhSidebar } from "./sidebar/index.js";
+
+import navbar from "./navbar.js";
+import sidebar from "./sidebar/index.js";
+
+const __dirname = getDirname(import.meta.url);
+
 
 export default hopeTheme({
-  hostname: "https://vuepress-theme-hope-docs-demo.netlify.app",
+  hostname: "http://xxfxpt.top",
+  logo: "/logo.png",
+  favicon: "/favicon.ico",
+
+  iconAssets: "//at.alicdn.com/t/c/font_2922463_kweia6fbo9.css",
 
   author: {
-    name: "Mr.Hope",
-    url: "https://mrhope.site",
+    name: "子龙",
+    url: "http://xxfxpt.top",
   },
 
-  iconAssets: "iconfont",
+  repo: "https://gitee.com/zilong-tech",
+  docsDir: "docs",
+  // 纯净模式：https://theme-hope.vuejs.press/zh/guide/interface/pure.html
+  pure: true,
+  breadcrumb: false,
+  navbar,
+  sidebar,
+  footer:
 
-  logo: "/logo.svg",
+  "<div>\n" +
+  "\t<p> <span><img src=\"http://www.beian.gov.cn/img/ghs.png\"><a href=\"http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=21011102000332&amp\" style=\"display:inline-block;text-decoration:none;height:20px;line-height:20px;color: black;\" target=\"_blank\">辽公网安备 21011102000332号</a> &nbsp;&nbsp;&nbsp;&nbsp;</span><a href=\"http://beian.miit.gov.cn/\" style='color: black;' target=\"_blank\">辽ICP备2023001503号-1</a> </p>\n" +
+  "\t</div>",
+  displayFooter: true,
 
-  repo: "vuepress-theme-hope/vuepress-theme-hope",
+  pageInfo: [
+    "Author",
+    "Category",
+    "Tag",
+    // "Date",
+    "Original",
+    "Word",
+    "ReadingTime",
+  ],
 
-  docsDir: "demo/theme-docs/src",
-
-  locales: {
-    "/": {
-      // navbar
-      navbar: enNavbar,
-
-      // sidebar
-      sidebar: enSidebar,
-
-      footer: "Default footer",
-
-      displayFooter: true,
-
-      metaLocales: {
-        editLink: "Edit this page on GitHub",
-      },
-    },
-
-    /**
-     * Chinese locale config
-     */
-    "/zh/": {
-      // navbar
-      navbar: zhNavbar,
-
-      // sidebar
-      sidebar: zhSidebar,
-
-      footer: "默认页脚",
-
-      displayFooter: true,
-
-      // page meta
-      metaLocales: {
-        editLink: "在 GitHub 上编辑此页",
-      },
-    },
-  },
-
-  encrypt: {
-    config: {
-      "/demo/encrypt.html": ["1234"],
-      "/zh/demo/encrypt.html": ["1234"],
+  blog: {
+    intro: "/about-the-author/",
+    sidebarDisplay: "mobile",
+    medias: {
+      Zhihu: "https://www.zhihu.com/people/bian-cheng-ji-zhu-zhi-nan",
+      Github: "https://github.com/zilong-tech",
+      Gitee: "https://gitee.com/zilong-tech",
     },
   },
 
   plugins: {
-    // If you don’t need comment feature, you can remove following option
-    // The following config is for demo ONLY, if you need comment feature, please generate and use your own config, see comment plugin documentation for details.
-    // To avoid disturbing the theme developer and consuming his resources, please DO NOT use the following config directly in your production environment!!!!!
-    comment: {
-      /**
-       * Using Giscus
-       */
-      // provider: "Giscus",
-      // repo: "vuepress-theme-hope/giscus-discussions",
-      // repoId: "R_kgDOG_Pt2A",
-      // category: "Announcements",
-      // categoryId: "DIC_kwDOG_Pt2M4COD69",
-
-      /**
-       * Using Twikoo
-       */
-      // provider: "Twikoo",
-      // envId: "https://twikoo.ccknbc.vercel.app",
-
-      /**
-       * Using Waline
-       */
-      provider: "Waline",
-      serverURL: "https://vuepress-theme-hope-comment.vercel.app",
+    blog: true,
+    copyright: {
+      author: "子龙(http://xxfxpt.top)",
+      license: "MIT",
+      triggerLength: 100,
+      maxLength: 700,
+      canonical: "http://xxfxpt.top/",
+      global:true
     },
-
-    // Disable features you don’t want here
     mdEnhance: {
       align: true,
-      attrs: true,
-      chart: true,
       codetabs: true,
       container: true,
-      demo: true,
-      echarts: true,
       figure: true,
-      flowchart: true,
-      gfm: true,
-      imgLazyload: true,
-      imgSize: true,
-      include: true,
-      katex: true,
-      mark: true,
-      mermaid: true,
-      playground: {
-        presets: ["ts", "vue"],
-      },
-      presentation: {
-        plugins: ["highlight", "math", "search", "notes", "zoom"],
-      },
-      stylize: [
-        {
-          matcher: "Recommended",
-          replacer: ({ tag }) => {
-            if (tag === "em")
-              return {
-                tag: "Badge",
-                attrs: { type: "tip" },
-                content: "Recommended",
-              };
-          },
-        },
-      ],
-      sub: true,
-      sup: true,
-      tabs: true,
-      vPre: true,
-      vuePlayground: true,
-    },
+      include: {
+        resolvePath: (file, cwd) => {
+          if (file.startsWith("@"))
+            return path.resolve(
+              __dirname,
+              "../snippets",
+              file.replace("@", "./")
+            );
 
-    // uncomment these if you want a pwa
-    // pwa: {
-    //   favicon: "/favicon.ico",
-    //   cacheHTML: true,
-    //   cachePic: true,
-    //   appendBase: true,
-    //   apple: {
-    //     icon: "/assets/icon/apple-icon-152.png",
-    //     statusBarColor: "black",
-    //   },
-    //   msTile: {
-    //     image: "/assets/icon/ms-icon-144.png",
-    //     color: "#ffffff",
-    //   },
-    //   manifest: {
-    //     icons: [
-    //       {
-    //         src: "/assets/icon/chrome-mask-512.png",
-    //         sizes: "512x512",
-    //         purpose: "maskable",
-    //         type: "image/png",
-    //       },
-    //       {
-    //         src: "/assets/icon/chrome-mask-192.png",
-    //         sizes: "192x192",
-    //         purpose: "maskable",
-    //         type: "image/png",
-    //       },
-    //       {
-    //         src: "/assets/icon/chrome-512.png",
-    //         sizes: "512x512",
-    //         type: "image/png",
-    //       },
-    //       {
-    //         src: "/assets/icon/chrome-192.png",
-    //         sizes: "192x192",
-    //         type: "image/png",
-    //       },
-    //     ],
-    //     shortcuts: [
-    //       {
-    //         name: "Demo",
-    //         short_name: "Demo",
-    //         url: "/demo/",
-    //         icons: [
-    //           {
-    //             src: "/assets/icon/guide-maskable.png",
-    //             sizes: "192x192",
-    //             purpose: "maskable",
-    //             type: "image/png",
-    //           },
-    //         ],
-    //       },
-    //     ],
-    //   },
-    // },
+          return path.resolve(cwd, file);
+        },
+      },
+      tasklist: true,
+    },
+    feed: {
+      atom: true,
+      json: true,
+      rss: true,
+    },
   },
 });

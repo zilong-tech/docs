@@ -1,6 +1,5 @@
 ---
 title: java 学习路线图
-author: 程序员子龙
 index: true
 icon: discover
 category:
