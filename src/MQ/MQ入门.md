@@ -1,11 +1,11 @@
 ---
-title: MQ 消息中间件入门
+title: MQ消息中间件入门
 author: 程序员子龙
-index: true
 icon: discover
 category:
 - 消息中间件
 ---
+
 ### 消息中间件(MQ)的定义
 
 MQ：MessageQueue，消息队列。 队列，是一种FIFO 先进先出的数据结构。消息由生产者发送到MQ进行排队，然后按原来的顺序交由消息的消费者进行处理。

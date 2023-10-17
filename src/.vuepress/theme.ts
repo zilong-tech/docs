@@ -3,6 +3,7 @@ import { hopeTheme } from "vuepress-theme-hope";
 
 import navbar from "./navbar.js";
 import sidebar from "./sidebar/index.js";
+import {PageFrontmatter} from "@vuepress/core";
 
 const __dirname = getDirname(import.meta.url);
 
@@ -44,7 +45,7 @@ export default hopeTheme({
   ],
 
   blog: {
-    intro: "/about-the-author/",
+    // intro: "/about-the-author/",
     sidebarDisplay: "mobile",
     medias: {
       Zhihu: "https://www.zhihu.com/people/bian-cheng-ji-zhu-zhi-nan",
@@ -87,5 +88,20 @@ export default hopeTheme({
       json: true,
       rss: true,
     },
-  },
+    autoCatalog:{
+
+      frontmatter: (path) => {
+        return {
+
+        };
+      },
+
+      level:1
+
+
+
+    }
+  }
+
+
 });

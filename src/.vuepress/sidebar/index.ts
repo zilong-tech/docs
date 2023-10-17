@@ -93,6 +93,12 @@ export default sidebar({
       text: "消息中间件",
       icon: "info",
       children: [
+
+        {
+          text: "基础",
+          icon: "basic",
+          link: "/MQ/",
+        },
         {
           text: "Kafka",
           icon: "creative",

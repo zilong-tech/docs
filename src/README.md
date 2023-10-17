@@ -1,7 +1,6 @@
 ---
 home: true
 icon: home
-title: 子龙技术
 heroImage: /logo.svg
 heroText: 子龙技术
 tagline: 包含：编程语言，开发技术，分布式，微服务，高并发，高可用，高可扩展，高可维护，JVM技术，MySQL，分布式数据库，分布式事务，云原生，大数据，各种面试题，面试技巧...
