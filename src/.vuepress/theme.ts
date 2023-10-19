@@ -1,7 +1,7 @@
 import { getDirname, path } from "@vuepress/utils";
 import { hopeTheme } from "vuepress-theme-hope";
 
-import navbar from "./navbar.js";
+import navbar from "./navbar/navbar.js";
 import sidebar from "./sidebar/index.js";
 import {PageFrontmatter} from "@vuepress/core";
 
@@ -21,7 +21,7 @@ export default hopeTheme({
   },
 
   repo: "https://gitee.com/zilong-tech",
-  docsDir: "docs",
+  docsDir: "src",
   // 纯净模式：https://theme-hope.vuejs.press/zh/guide/interface/pure.html
   pure: true,
   breadcrumb: false,
@@ -88,19 +88,7 @@ export default hopeTheme({
       json: true,
       rss: true,
     },
-    autoCatalog:{
-
-      frontmatter: (path) => {
-        return {
-
-        };
-      },
-
-      level:1
-
-
-
-    }
+    autoCatalog:false
   }
 
 
